@@ -1,6 +1,7 @@
 package org.ney.moongps.registry;
 
 import org.jetbrains.annotations.NotNull;
+import org.ney.moongps.config.type.StorageType;
 import org.ney.moongps.model.GPSGoal;
 import org.ney.moongps.registry.repository.GoalRepository;
 
@@ -18,6 +19,15 @@ public class GoalStorage {
         this.goalRegistry = goalRegistry;
         this.goalRepository = goalRepository;
 
+    }
+
+    /**
+     * Возвращает формат активного хранилища.
+     *
+     * @return тип хранения
+     */
+    public @NotNull StorageType getStorageType() {
+        return goalRepository.type();
     }
 
     /**

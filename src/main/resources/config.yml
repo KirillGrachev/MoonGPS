@@ -14,7 +14,8 @@ settings:
     reload: "moongps.reload" # Reloading the configuration (/gps reload)
 
   storage:
-    type: YAML # YAML - goals.yml file, SQL - MySQL database
+    type: YAML
+    download_libraries: true # Download driver jars into the libs folder on first SQL use (place jars manually to skip) # YAML - goals.yml file, MYSQL - MySQL database, FILE - database file in the plugin folder
     sql:
       host: "localhost"
       port: 3306
@@ -53,21 +54,22 @@ settings:
       WEST: "&7West"
       NORTH_WEST: "&7Northwest"
 
-  display: # Channels can be combined freely
+  display: # Master channel switches: they gate EVERY plugin output (navigation and goal reached)
     title:
       enabled: true # Title + subtitle
       fade_in: 0 # Fade in (in ticks)
       stay: 40 # Stay (in ticks)
       fade_out: 10 # Fade out (in ticks)
     action_bar:
-      enabled: false # Line above the hotbar
+      enabled: false # Line above the hotbar (off = no action bar from the plugin at all)
     boss_bar:
-      enabled: false # Boss bar at the top of the screen
+      enabled: false # Boss bar at the top of the screen (navigation bar and reach flash)
       color: BLUE # BarColor: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
       style: SOLID # BarStyle: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
       progress: DISTANCE # DISTANCE - fills as you approach, FULL - always full
     chat:
       enabled: false # Duplicate the navigation into chat
+    # Per-message switches live next to the texts: messages.navigation.* and messages.goal_reached.*
 
   goal_reached:
     boss_bar:

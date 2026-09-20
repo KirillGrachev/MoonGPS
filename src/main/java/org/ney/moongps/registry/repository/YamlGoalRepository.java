@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.ney.moongps.MoonGPS;
+import org.ney.moongps.config.type.StorageType;
 import org.ney.moongps.model.GPSGoal;
 import org.ney.moongps.util.GoalNameValidator;
 
@@ -41,6 +42,11 @@ public class YamlGoalRepository implements GoalRepository {
         if (goalsFile.exists()) return;
         plugin.saveResource(FILE_NAME, false);
 
+    }
+
+    @Override
+    public @NotNull StorageType type() {
+        return StorageType.YAML;
     }
 
     @Override

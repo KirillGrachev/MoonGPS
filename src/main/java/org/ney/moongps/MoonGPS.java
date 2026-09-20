@@ -128,7 +128,12 @@ public class MoonGPS extends JavaPlugin {
     public int reloadPlugin() {
 
         configManager.reload();
-        goalStorage.loadGoals();
+
+        if (configManager.getStorageSettings().type() != goalStorage.getStorageType()) {
+            getLogger().warning("Storage type changed in config.yml: restart the server to switch storage.");
+        } else {
+            goalStorage.loadGoals();
+        }
 
         if (navigationService != null) {
             navigationService.stopAll(true);

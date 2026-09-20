@@ -1,6 +1,7 @@
 package org.ney.moongps.registry.repository;
 
 import org.jetbrains.annotations.NotNull;
+import org.ney.moongps.config.type.StorageType;
 import org.ney.moongps.model.GPSGoal;
 
 import java.util.List;
@@ -10,6 +11,13 @@ import java.util.List;
  * Реализации: файл goals.yml и таблица MySQL.
  */
 public interface GoalRepository {
+
+    /**
+     * Возвращает формат этого хранилища.
+     *
+     * @return тип хранения
+     */
+    @NotNull StorageType type();
 
     /**
      * Читает все метки из хранилища.

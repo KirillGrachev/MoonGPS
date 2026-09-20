@@ -58,6 +58,7 @@ public class GoalNotifier {
         }
 
         if (settings.bossBarEnabled() && !settings.bossBar().isEmpty()) {
+
             bossBarService.update(player, placeholders.apply(settings.bossBar().values().get(0)), distance);
         }
 
@@ -76,18 +77,28 @@ public class GoalNotifier {
     public void notifyGoalReached(@NotNull Player player, @NotNull GPSGoal goal) {
 
         ReachSettings settings = configManager.getReachSettings();
+        DisplaySettings channels = configManager.getDisplaySettings();
         Placeholders placeholders = goalPlaceholders(goal);
 
-        messageService.sendTitle(player, settings.title(), placeholders);
-        messageService.sendActionBar(player, settings.actionBar(), placeholders);
-        messageService.send(player, settings.messages(), placeholders);
+        // Мастер-тумблер канала в settings.display гасит канал для любого вывода,
+        // тумблер сообщения в messages.goal_reached - точечно для этого события
+        if (channels.titleEnabled()) {
+            messageService.sendTitle(player, settings.title(), placeholders);
+        }
 
-        if (!settings.bossBar().isEmpty()) {
+        if (channels.actionBarEnabled()) {
+            messageService.sendActionBar(player, settings.actionBar(), placeholders);
+        }
+
+        if (channels.chatEnabled()) {
+            messageService.send(player, settings.messages(), placeholders);
+        }
+
+        if (channels.bossBarEnabled() && !settings.bossBar().isEmpty()) {
 
             bossBarService.flash(player, placeholders.apply(settings.bossBar().values().get(0)),
                     settings.barColor(), settings.barStyle(), settings.showTime()
             );
-
         }
 
         playReachSound(player, settings);

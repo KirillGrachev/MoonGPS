@@ -2,26 +2,41 @@ package org.ney.moongps.registry.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.ney.moongps.config.type.SqlSettings;
+import org.ney.moongps.registry.repository.library.LibraryLoader;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.Driver;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.StringJoiner;
 
 /**
- * Подключения к MySQL через драйвер JDBC, вшитый в jar плагина.
+ * Подключения к MySQL: драйвер поднимается лениво из папки libs
+ * только при выбранном SQL-хранилище.
  */
 public class MysqlConnectionFactory implements ConnectionFactory {
 
-    private final SqlSettings settings;
+    private static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
 
-    public MysqlConnectionFactory(@NotNull SqlSettings settings) {
+    private final SqlSettings settings;
+    private final LibraryLoader libraryLoader;
+
+    public MysqlConnectionFactory(@NotNull SqlSettings settings, @NotNull LibraryLoader libraryLoader) {
+
         this.settings = settings;
+        this.libraryLoader = libraryLoader;
+
     }
 
     @Override
     public Connection open() throws SQLException {
-        return DriverManager.getConnection(buildUrl(), settings.user(), settings.password());
+
+        Driver driver = libraryLoader.loadDriver(
+                java.util.List.of(LibraryLoader.MYSQL_DRIVER, LibraryLoader.MYSQL_PROTOBUF),
+                DRIVER_CLASS
+        );
+        return driver.connect(buildUrl(), credentials());
+
     }
 
     /**
@@ -38,6 +53,17 @@ public class MysqlConnectionFactory implements ConnectionFactory {
         String query = params.length() == 0 ? "" : "?" + params;
 
         return "jdbc:mysql://" + settings.host() + ":" + settings.port() + "/" + settings.database() + query;
+
+    }
+
+    private @NotNull Properties credentials() {
+
+        Properties properties = new Properties();
+
+        properties.setProperty("user", settings.user());
+        properties.setProperty("password", settings.password());
+
+        return properties;
 
     }
 }

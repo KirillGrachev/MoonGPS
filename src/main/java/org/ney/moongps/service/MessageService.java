@@ -53,9 +53,12 @@ public class MessageService {
                           @NotNull MoonTitle moonTitle,
                           @NotNull Placeholders placeholders) {
 
-        if (!moonTitle.isEnabled()) return;
+        String titleText = moonTitle.title();
+
+        if (titleText == null) return;
+
         player.showTitle(moonTitle.asAdventure(
-                placeholders.apply(moonTitle.title()),
+                placeholders.apply(titleText),
                 placeholders.apply(moonTitle.subtitle())
         ));
 

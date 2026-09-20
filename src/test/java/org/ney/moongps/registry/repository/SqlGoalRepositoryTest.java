@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.ney.moongps.config.type.SqlSettings;
+import org.ney.moongps.config.type.StorageType;
 import org.ney.moongps.model.GPSGoal;
 
 import java.sql.DriverManager;
@@ -31,7 +32,7 @@ class SqlGoalRepositoryTest {
                 "localhost", 3306, "moongps", "test_marks", "root", "", Map.of()
         );
 
-        sqlGoalRepository = new SqlGoalRepository(database(settings), settings, Logger.getLogger("MoonGPSTest"));
+        sqlGoalRepository = new SqlGoalRepository(database(settings), settings, StorageType.MYSQL, Logger.getLogger("MoonGPSTest"));
         sqlGoalRepository.connect();
 
     }
@@ -115,7 +116,7 @@ class SqlGoalRepositoryTest {
         );
 
         SqlGoalRepository unsafeRepository = new SqlGoalRepository(
-                database(settings), settings, Logger.getLogger("MoonGPSTest")
+                database(settings), settings, StorageType.MYSQL, Logger.getLogger("MoonGPSTest")
         );
 
         unsafeRepository.connect();

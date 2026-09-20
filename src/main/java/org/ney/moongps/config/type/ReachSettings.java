@@ -11,7 +11,6 @@ import org.ney.moongps.config.message.MoonTitle;
  * Настройки момента достижения метки.
  * Каждый канал вывода включается флагом enabled у своего сообщения.
  *
- * @param distance  расстояние (в блоках), на котором метка считается достигнутой
  * @param title     титул о достижении
  * @param messages  сообщение в чат о достижении
  * @param actionBar сообщение в action bar о достижении
@@ -21,8 +20,7 @@ import org.ney.moongps.config.message.MoonTitle;
  * @param showTime  время показа временной полосы в тиках
  * @param sound     звук достижения (null - выключен)
  */
-public record ReachSettings(double distance,
-                            MoonTitle title,
+public record ReachSettings(MoonTitle title,
                             Messages messages,
                             Messages actionBar,
                             Messages bossBar,

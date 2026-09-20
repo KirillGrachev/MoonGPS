@@ -6,6 +6,9 @@ import org.ney.moongps.config.ConfigManager;
 import org.ney.moongps.config.type.StorageSettings;
 import org.ney.moongps.config.type.StorageType;
 import org.ney.moongps.model.GPSGoal;
+import org.ney.moongps.registry.repository.library.LibraryLoader;
+
+import java.io.File;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,6 +19,9 @@ import java.util.List;
  * и пишет об этом в лог жирным предупреждением.
  */
 public class GoalRepositoryFactory {
+
+    private static final String FILE_DATABASE_PATH = "storage/moongps";
+    private static final String LIBS_FOLDER = "libs";
 
     private final MoonGPS plugin;
     private final ConfigManager configManager;
@@ -61,9 +67,19 @@ public class GoalRepositoryFactory {
 
     private @NotNull SqlGoalRepository createSqlRepository(@NotNull StorageSettings settings) throws SQLException {
 
+        LibraryLoader libraryLoader = new LibraryLoader(
+                new File(plugin.getDataFolder(), LIBS_FOLDER),
+                configManager.isDownloadLibrariesEnabled()
+        );
+
+        ConnectionFactory connectionFactory = settings.type() == StorageType.MYSQL
+                ? new MysqlConnectionFactory(settings.sql(), libraryLoader)
+                : new H2ConnectionFactory(new File(plugin.getDataFolder(), FILE_DATABASE_PATH), libraryLoader);
+
         SqlGoalRepository sqlRepository = new SqlGoalRepository(
-                new MysqlConnectionFactory(settings.sql()),
+                connectionFactory,
                 settings.sql(),
+                settings.type(),
                 plugin.getLogger()
         );
 

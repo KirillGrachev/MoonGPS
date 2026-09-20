@@ -47,6 +47,7 @@ public class ConfigManager implements MoonGPSConfig {
     private static final String PATH_PERMISSION_RELOAD = "settings.permissions.reload";
     private static final String PATH_OP_BYPASS = "settings.permissions.op_bypass";
     private static final String PATH_STORAGE_TYPE = "settings.storage.type";
+    private static final String PATH_DOWNLOAD_LIBRARIES = "settings.storage.download_libraries";
     private static final String PATH_SQL_HOST = "settings.storage.sql.host";
     private static final String PATH_SQL_PORT = "settings.storage.sql.port";
     private static final String PATH_SQL_DATABASE = "settings.storage.sql.database";
@@ -117,6 +118,7 @@ public class ConfigManager implements MoonGPSConfig {
     private String permissionDelete;
     private String permissionReload;
 
+    private boolean downloadLibrariesEnabled;
     private StorageSettings storageSettings;
     private DirectionSettings directionSettings;
     private DisplaySettings displaySettings;
@@ -127,7 +129,6 @@ public class ConfigManager implements MoonGPSConfig {
     private Messages onlyPlayersMessage;
     private Messages noPermissionMessage;
     private Messages usageMessage;
-    private Messages unknownCommandMessage;
     private Messages markNotFoundMessage;
     private Messages navigationDisabledMessage;
     private Messages invalidWorldMessage;
@@ -196,6 +197,7 @@ public class ConfigManager implements MoonGPSConfig {
 
         prefix = HexColorUtil.color(config.getString(PATH_PREFIX, ""));
 
+        downloadLibrariesEnabled = config.getBoolean(PATH_DOWNLOAD_LIBRARIES, true);
         storageSettings = cacheStorageSettings();
         directionSettings = cacheDirectionSettings();
         displaySettings = cacheDisplaySettings();
@@ -204,7 +206,6 @@ public class ConfigManager implements MoonGPSConfig {
         onlyPlayersMessage = messages("messages.only_players");
         noPermissionMessage = messages("messages.no_permission");
         usageMessage = messages("messages.usage");
-        unknownCommandMessage = messages("messages.unknown_command");
         markNotFoundMessage = messages("messages.mark_not_found");
         navigationDisabledMessage = messages("messages.navigation_disabled");
         invalidWorldMessage = messages("messages.invalid_world");
@@ -322,7 +323,6 @@ public class ConfigManager implements MoonGPSConfig {
     private ReachSettings cacheReachSettings() {
 
         return new ReachSettings(
-                reachDistance,
                 title("messages.goal_reached.title"),
                 messages("messages.goal_reached.text"),
                 messages("messages.goal_reached.action_bar"),
@@ -517,6 +517,11 @@ public class ConfigManager implements MoonGPSConfig {
     }
 
     @Override
+    public boolean isDownloadLibrariesEnabled() {
+        return downloadLibrariesEnabled;
+    }
+
+    @Override
     public StorageSettings getStorageSettings() {
         return storageSettings;
     }
@@ -579,11 +584,6 @@ public class ConfigManager implements MoonGPSConfig {
     @Override
     public Messages getUsageMessage() {
         return usageMessage;
-    }
-
-    @Override
-    public Messages getUnknownCommandMessage() {
-        return unknownCommandMessage;
     }
 
     @Override

@@ -30,8 +30,9 @@ class ConfigTypesTest {
     @DisplayName("Тип хранилища разбирается без учёта регистра")
     void storageTypeOf() {
 
-        assertEquals(StorageType.SQL, StorageType.of("sql", StorageType.YAML));
-        assertEquals(StorageType.YAML, StorageType.of("Sqlite", StorageType.YAML));
+        assertEquals(StorageType.MYSQL, StorageType.of("mysql", StorageType.YAML));
+        assertEquals(StorageType.FILE, StorageType.of("File", StorageType.YAML));
+        assertEquals(StorageType.YAML, StorageType.of("sqlite", StorageType.YAML));
         assertEquals(StorageType.YAML, StorageType.of(null, StorageType.YAML));
 
     }

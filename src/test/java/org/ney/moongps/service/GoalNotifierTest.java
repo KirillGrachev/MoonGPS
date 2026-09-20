@@ -44,6 +44,8 @@ class GoalNotifierTest {
 
         player = Mockito.mock(Player.class);
 
+        display(true, true, true, true);
+
     }
 
     @Test
@@ -124,7 +126,6 @@ class GoalNotifierTest {
         ReachSettings.SoundEffect sound = new ReachSettings.SoundEffect(org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0F, 1.5F);
 
         Mockito.when(configManager.getReachSettings()).thenReturn(new ReachSettings(
-                2.0D,
                 new MoonTitle("&6Navigator", "&fMark reached!", 0, 40, 10),
                 new Messages(List.of("reached"), true),
                 new Messages(List.of("bar"), true),
@@ -146,11 +147,32 @@ class GoalNotifierTest {
     }
 
     @Test
+    @DisplayName("Выключенный мастер-канал гасит action bar достижения")
+    void masterChannelGatesReach() {
+
+        display(true, false, false, false);
+
+        Mockito.when(configManager.getReachSettings()).thenReturn(new ReachSettings(
+                new MoonTitle("&6Navigator", "&fMark reached!", 0, 40, 10),
+                new Messages(List.of("reached"), true),
+                new Messages(List.of("bar"), true),
+                Messages.disabled(),
+                BarColor.GREEN, BarStyle.SOLID, 40L,
+                null
+        ));
+
+        goalNotifier.notifyGoalReached(player, GOAL);
+
+        Mockito.verify(messageService, Mockito.never()).sendActionBar(Mockito.eq(player), Mockito.any(Messages.class), Mockito.any(Placeholders.class));
+        Mockito.verify(messageService).sendTitle(Mockito.eq(player), Mockito.any(MoonTitle.class), Mockito.any(Placeholders.class));
+
+    }
+
+    @Test
     @DisplayName("Без звука достижение проходит тихо")
     void goalReachedWithoutSound() {
 
         Mockito.when(configManager.getReachSettings()).thenReturn(new ReachSettings(
-                2.0D,
                 MoonTitle.disabled(),
                 Messages.disabled(),
                 Messages.disabled(),

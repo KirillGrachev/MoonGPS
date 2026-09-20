@@ -42,6 +42,8 @@ public interface MoonGPSConfig {
 
     /** Группы настроек */
 
+    boolean isDownloadLibrariesEnabled();
+
     StorageSettings getStorageSettings();
 
     DirectionSettings getDirectionSettings();
@@ -71,8 +73,6 @@ public interface MoonGPSConfig {
     Messages getNoPermissionMessage();
 
     Messages getUsageMessage();
-
-    Messages getUnknownCommandMessage();
 
     Messages getMarkNotFoundMessage();
 

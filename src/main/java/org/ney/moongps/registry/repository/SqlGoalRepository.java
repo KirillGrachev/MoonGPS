@@ -2,6 +2,7 @@ package org.ney.moongps.registry.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.ney.moongps.config.type.SqlSettings;
+import org.ney.moongps.config.type.StorageType;
 import org.ney.moongps.model.GPSGoal;
 
 import java.sql.Connection;
@@ -23,18 +24,26 @@ public class SqlGoalRepository implements GoalRepository {
 
     private final ConnectionFactory connectionFactory;
     private final SqlSettings settings;
+    private final StorageType storageType;
     private final Logger logger;
 
     private Connection connection;
 
     public SqlGoalRepository(@NotNull ConnectionFactory connectionFactory,
                              @NotNull SqlSettings settings,
+                             @NotNull StorageType storageType,
                              @NotNull Logger logger) {
 
         this.connectionFactory = connectionFactory;
         this.settings = settings;
+        this.storageType = storageType;
         this.logger = logger;
 
+    }
+
+    @Override
+    public @NotNull StorageType type() {
+        return storageType;
     }
 
     /**
