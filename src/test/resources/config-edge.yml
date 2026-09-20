@@ -1,0 +1,18 @@
+settings:
+  enabled: true
+  navigation:
+    interval: 0
+    reach_distance: 0.0
+  direction:
+    mode: SIDEWAYS
+    ahead_threshold: 5.0
+    behind_threshold: -5.0
+  display:
+    type: HOLOGRAM
+  goal_reached:
+    sound:
+      enabled: true
+      name: "NOT_A_SOUND"
+
+messages:
+  prefix: ""

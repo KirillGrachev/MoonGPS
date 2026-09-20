@@ -1,0 +1,22 @@
+# TEST RESOURCE (src/test/resources) - not shipped inside the plugin jar.
+# Used by GoalStorageTest#brokenGoalsSkipped: "broken mark" has an invalid name,
+# "incomplete" has no "z" coordinate. Only "shop" must be loaded.
+
+marks:
+
+  shop:
+    x: -50.5
+    y: 107.0
+    z: 206.5
+    world: "world"
+
+  broken mark:
+    x: 1.0
+    y: 2.0
+    z: 3.0
+    world: "world"
+
+  incomplete:
+    x: 1.0
+    y: 2.0
+    world: "world"

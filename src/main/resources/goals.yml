@@ -1,0 +1,23 @@
+# List of server marks.
+#
+# How to create a mark:
+#   1) In game - /gps set <name> (permission moongps.set)
+#   2) Manually - by the scheme below, then /gps reload
+#
+# Mark name: letters, numbers, "-" and "_", up to 32 characters.
+# Field "permission" is optional - the right to navigate to this mark.
+
+marks:
+
+  shop:
+    x: -50.5
+    y: 107.0
+    z: 206.5
+    world: "world"
+
+  bank:
+    x: 19.5
+    y: 97.5
+    z: 190.5
+    world: "world"
+    permission: "moongps.mark.bank"

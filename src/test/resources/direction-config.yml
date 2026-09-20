@@ -1,0 +1,28 @@
+# TEST RESOURCE (src/test/resources) - not shipped inside the plugin jar.
+# Minimal config.yml used by DirectionServiceTest and GoalStorageTest.
+
+settings:
+  enabled: true
+  direction:
+    mode: RELATIVE
+    ahead_threshold: 0.85
+    behind_threshold: -0.85
+    format: "[{arrow}] {name}"
+    compass:
+      NORTH: "N"
+      NORTH_EAST: "NE"
+      EAST: "E"
+      SOUTH_EAST: "SE"
+      SOUTH: "S"
+      SOUTH_WEST: "SW"
+      WEST: "W"
+      NORTH_WEST: "NW"
+
+messages:
+  prefix: ""
+  direction:
+    relative:
+      AHEAD: "AHEAD"
+      LEFT: "LEFT"
+      RIGHT: "RIGHT"
+      BEHIND: "BEHIND"

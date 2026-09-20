@@ -1,0 +1,248 @@
+# Marks are stored in goals.yml (created on the first launch).
+
+settings:
+
+  enabled: true # Global switch of the navigator
+
+  permissions:
+    enabled: false # Enable the permission system (permissions are declared in plugin.yml)
+    op_bypass: false # OP players and console ignore permission checks
+    use: "moongps.use" # Access to the navigator
+    list: "moongps.list" # Viewing the list of marks
+    set: "moongps.set" # Creating marks (/gps set <name>)
+    delete: "moongps.delete" # Deleting marks (/gps delete <name>)
+    reload: "moongps.reload" # Reloading the configuration (/gps reload)
+
+  storage:
+    type: YAML # YAML - goals.yml file, SQL - MySQL database
+    sql:
+      host: "localhost"
+      port: 3306
+      database: "moongps"
+      table: "moongps_marks"
+      user: "root"
+      password: ""
+      properties: # Extra JDBC URL parameters
+        useSSL: "false"
+        autoReconnect: "true"
+
+  marks:
+    case_sensitive: false # false - "Shop" and "shop" are the same mark
+    other_world:
+      restrict: true # Hide marks of other worlds from players without the permission
+      permission: "moongps.mark.other_world" # Permission to see and use marks of other worlds
+
+  navigation:
+    interval: 8 # Update period of the navigator (in ticks, 20 ticks = 1 second)
+    reach_distance: 2.0 # Distance at which the mark is considered reached (in blocks)
+    stop_on_world_change: true # Turn the navigator off when leaving the mark world
+    auto_start: "" # Mark that turns on automatically when joining the server (empty - disabled)
+
+  direction:
+    mode: RELATIVE # RELATIVE - ahead/left/right/behind, COMPASS - 8 compass directions
+    ahead_threshold: 0.85 # cos(angle): the closer to 1.0, the narrower the "ahead" sector
+    behind_threshold: -0.85 # cos(angle): the closer to -1.0, the narrower the "behind" sector
+    format: "{arrow} {name}" # Direction formatting (without {arrow}/{name} the direction name is sent as is)
+    compass: # Names of compass directions (used in COMPASS mode, {arrow} is added by format)
+      NORTH: "&7North"
+      NORTH_EAST: "&7Northeast"
+      EAST: "&7East"
+      SOUTH_EAST: "&7Southeast"
+      SOUTH: "&7South"
+      SOUTH_WEST: "&7Southwest"
+      WEST: "&7West"
+      NORTH_WEST: "&7Northwest"
+
+  display: # Channels can be combined freely
+    title:
+      enabled: true # Title + subtitle
+      fade_in: 0 # Fade in (in ticks)
+      stay: 40 # Stay (in ticks)
+      fade_out: 10 # Fade out (in ticks)
+    action_bar:
+      enabled: false # Line above the hotbar
+    boss_bar:
+      enabled: false # Boss bar at the top of the screen
+      color: BLUE # BarColor: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+      style: SOLID # BarStyle: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      progress: DISTANCE # DISTANCE - fills as you approach, FULL - always full
+    chat:
+      enabled: false # Duplicate the navigation into chat
+
+  goal_reached:
+    boss_bar:
+      color: GREEN # BarColor of the reach bar
+      style: SOLID # BarStyle of the reach bar
+      show_time: 40 # How long the reach bar stays on screen (in ticks)
+    sound:
+      enabled: true
+      name: "ENTITY_PLAYER_LEVELUP" # Bukkit sound name
+      volume: 1.0
+      pitch: 1.5
+
+  worlds:
+    enabled: true # Restrict the navigator to the world list
+    list: # Worlds where the navigator works
+      - "world"
+
+messages:
+
+  prefix: "&b&lM&9&lL &8» " # Value of the {prefix} variable (add it to the messages where you need it)
+
+  only_players:
+    enabled: true
+    text:
+      - "{prefix}&cOnly players can use this command!"
+
+  no_permission:
+    enabled: true
+    text:
+      - "{prefix}&cYou don't have permission to do this!"
+
+  usage:
+    enabled: true
+    text:
+      - ""
+      - "{prefix}&fUsage - &e/gps &7[&fmark&7]"
+      - " &7Subcommands: &elist&7, &eset&7, &edelete&7, &ereload"
+      - " &7Repeat the command to turn the navigator off"
+      - ""
+
+  unknown_command:
+    enabled: true
+    text:
+      - "{prefix}&cUnknown subcommand! Available: &flist&c, &fset&c, &fdelete&c, &freload"
+
+  mark_not_found:
+    enabled: true
+    text:
+      - "{prefix}&cMark &f{gps} &cnot found!"
+
+  navigation_disabled:
+    enabled: true
+    text:
+      - "{prefix}&cThe navigator is disabled on this server!"
+
+  invalid_world:
+    enabled: true
+    text:
+      - "{prefix}&cThe navigator is not available in world &f{world}&c!"
+
+  mark_world_not_loaded:
+    enabled: true
+    text:
+      - "{prefix}&cThe world of mark &f{gps} &cis not loaded!"
+
+  already_has_goal:
+    enabled: true
+    text:
+      - ""
+      - "{prefix}&c✘ &fA mark is already set! &7(&f{current}&7)"
+      - " &7Turn it off first: &e/gps {current}"
+      - ""
+
+  enabled:
+    enabled: true
+    text:
+      - "{prefix}&aThe navigator is enabled for mark &f{gps}"
+
+  disabled:
+    enabled: true
+    text:
+      - "{prefix}&cThe navigator is disabled for mark &f{gps}"
+
+  stopped_world_changed:
+    enabled: true
+    text:
+      - "{prefix}&cThe navigator has been turned off - you left the mark world!"
+
+  list:
+    enabled: true
+    per_page: 10 # Marks per page
+    header:
+      - ""
+      - " &b&lServer marks &7(&f{page}&7/&f{max_page}&7)"
+    entry:
+      enabled: true
+      text:
+        - " &8• &f{gps} &8- &7{distance} bl."
+    entry_other_world:
+      enabled: true
+      text:
+        - " &8• &f{gps} &8- &7world {world}"
+    footer:
+      - " &7Total: &f{total}"
+      - ""
+    empty:
+      enabled: true
+      text:
+        - "{prefix}&cThe list of marks is empty!"
+
+  set:
+    success:
+      enabled: true
+      text:
+        - "{prefix}&aMark &f{gps} &ahas been created! &7(&f{x}&7, &f{y}&7, &f{z}&7)"
+    updated:
+      enabled: true
+      text:
+        - "{prefix}&eMark &f{gps} &ehas been updated! &7(&f{x}&7, &f{y}&7, &f{z}&7)"
+    invalid_name:
+      enabled: true
+      text:
+        - "{prefix}&cInvalid name! Allowed: letters, numbers, &f-&c and &f_ &c(up to 32 characters)"
+
+  delete:
+    success:
+      enabled: true
+      text:
+        - "{prefix}&cMark &f{gps} &chas been deleted!"
+
+  reload:
+    success:
+      enabled: true
+      text:
+        - "{prefix}&aConfiguration reloaded! &7Marks: &f{marks}"
+
+  goal_reached:
+    title:
+      enabled: true
+      title: "&6Navigator"
+      subtitle: "&fMark {gps} reached!"
+    text:
+      enabled: false
+      text:
+        - "{prefix}&aYou have reached the mark &f{gps}&a!"
+    action_bar:
+      enabled: true
+      text:
+        - "&a✔ &fMark {gps} reached!"
+    boss_bar:
+      enabled: false
+      text:
+        - "&a✔ &fMark {gps} reached!"
+
+  navigation:
+    title:
+      enabled: true
+      title: "{direction}"
+      subtitle: "Distance to {gps} &7» &f{distance} bl."
+    action_bar:
+      enabled: true
+      text:
+        - "{direction} &8| &7{distance} bl. &8→ &f{gps}"
+    boss_bar:
+      enabled: true
+      text:
+        - "#42fffc{direction} &8| &7{distance} bl. &8→ &f{gps}"
+    text:
+      enabled: false
+      text:
+        - "{direction} &8| &7{distance} bl. &8→ &f{gps}"
+
+  direction:
+    relative:
+      AHEAD: "&fAhead"
+      LEFT: "&fLeft"
+      RIGHT: "&fRight"
+      BEHIND: "&fBehind"
