@@ -8,6 +8,11 @@ settings:
     ahead_threshold: 0.85
     behind_threshold: -0.85
     format: "[{arrow}] {name}"
+    relative:
+      AHEAD: "AHEAD"
+      LEFT: "LEFT"
+      RIGHT: "RIGHT"
+      BEHIND: "BEHIND"
     compass:
       NORTH: "N"
       NORTH_EAST: "NE"
@@ -20,9 +25,3 @@ settings:
 
 messages:
   prefix: ""
-  direction:
-    relative:
-      AHEAD: "AHEAD"
-      LEFT: "LEFT"
-      RIGHT: "RIGHT"
-      BEHIND: "BEHIND"

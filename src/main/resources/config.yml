@@ -44,6 +44,11 @@ settings:
     ahead_threshold: 0.85 # cos(angle): the closer to 1.0, the narrower the "ahead" sector
     behind_threshold: -0.85 # cos(angle): the closer to -1.0, the narrower the "behind" sector
     format: "{arrow} {name}" # Direction formatting (without {arrow}/{name} the direction name is sent as is)
+    relative: # Names of relative directions (used in RELATIVE mode, {arrow} is added by format)
+      AHEAD: "&fAhead"
+      LEFT: "&fLeft"
+      RIGHT: "&fRight"
+      BEHIND: "&fBehind"
     compass: # Names of compass directions (used in COMPASS mode, {arrow} is added by format)
       NORTH: "&7North"
       NORTH_EAST: "&7Northeast"
@@ -142,6 +147,11 @@ messages:
       - "{prefix}&c✘ &fA mark is already set! &7(&f{current}&7)"
       - " &7Turn it off first: &e/gps {current}"
       - ""
+
+  already_at_mark:
+    enabled: true
+    text:
+      - "{prefix}&aYou are already at mark &f{gps}&a!"
 
   enabled:
     enabled: true
@@ -242,9 +252,3 @@ messages:
       text:
         - "{direction} &8| &7{distance} bl. &8→ &f{gps}"
 
-  direction:
-    relative:
-      AHEAD: "&fAhead"
-      LEFT: "&fLeft"
-      RIGHT: "&fRight"
-      BEHIND: "&fBehind"

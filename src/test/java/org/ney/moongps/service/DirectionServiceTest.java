@@ -192,13 +192,12 @@ class DirectionServiceTest {
                     + "  direction:\n"
                     + "    mode: " + mode + "\n"
                     + "    format: \"" + format + "\"\n"
+                    + "    relative:\n"
+                    + "      AHEAD: \"AHEAD\"\n"
                     + "    compass:\n"
                     + "      NORTH: \"N\"\n"
                     + "messages:\n"
-                    + "  prefix: \"\"\n"
-                    + "  direction:\n"
-                    + "    relative:\n"
-                    + "      AHEAD: \"AHEAD\"\n");
+                    + "  prefix: \"\"\n");
 
             MoonGPS plugin = Mockito.mock(MoonGPS.class);
 

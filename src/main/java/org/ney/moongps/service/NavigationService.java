@@ -1,6 +1,7 @@
 package org.ney.moongps.service;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -137,6 +138,15 @@ public class NavigationService {
             sendIfNotify(player, notify, configManager.getNoPermissionMessage(), goalPlaceholders(goal));
             return false;
 
+        }
+
+        Location goalLocation = goal.toLocation();
+
+        if (goalLocation != null
+                && player.getLocation().distance(goalLocation) <= configManager.getReachDistance()) {
+
+            sendIfNotify(player, notify, configManager.getAlreadyAtMarkMessage(), goalPlaceholders(goal));
+            return false;
         }
 
         GoalNavigateEvent navigateEvent = new GoalNavigateEvent(player, goal);

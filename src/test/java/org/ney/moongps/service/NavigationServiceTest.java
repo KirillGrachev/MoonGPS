@@ -1,5 +1,6 @@
 package org.ney.moongps.service;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -49,6 +50,7 @@ class NavigationServiceTest {
     private Messages disabledMessage;
     private Messages alreadyHasGoalMessage;
     private Messages markWorldNotLoadedMessage;
+    private Messages alreadyAtMarkMessage;
     private Messages enabledMessage;
 
     @BeforeEach
@@ -79,6 +81,7 @@ class NavigationServiceTest {
         Mockito.when(player.getUniqueId()).thenReturn(UUID.randomUUID());
         Mockito.when(player.getWorld()).thenReturn(world);
         Mockito.when(player.isOnline()).thenReturn(true);
+        Mockito.when(player.getLocation()).thenReturn(new Location(world, 0.0D, 70.0D, 0.0D));
 
         BukkitSupport.onlinePlayer(player);
 
@@ -98,6 +101,9 @@ class NavigationServiceTest {
         Mockito.when(configManager.getDisabledMessage()).thenReturn(disabledMessage);
         Mockito.when(configManager.getAlreadyHasGoalMessage()).thenReturn(alreadyHasGoalMessage);
         Mockito.when(configManager.getMarkWorldNotLoadedMessage()).thenReturn(markWorldNotLoadedMessage);
+        alreadyAtMarkMessage = new Messages(List.of("already at mark"), true);
+
+        Mockito.when(configManager.getAlreadyAtMarkMessage()).thenReturn(alreadyAtMarkMessage);
         Mockito.when(configManager.getEnabledMessage()).thenReturn(enabledMessage);
 
         Mockito.when(configManager.isNavigatorEnabled()).thenReturn(true);
@@ -145,6 +151,19 @@ class NavigationServiceTest {
         assertFalse(navigationService.toggleGoal(player, "shop", true));
 
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(invalidWorldMessage), Mockito.any(Placeholders.class));
+
+    }
+
+    @Test
+    @DisplayName("Навигатор не включается до метки, на которой игрок стоит")
+    void toggleAtMark() {
+
+        Mockito.when(player.getLocation()).thenReturn(new Location(world, 10.0D, 70.0D, 10.0D));
+
+        assertFalse(navigationService.toggleGoal(player, "shop", true));
+
+        Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(alreadyAtMarkMessage), Mockito.any(Placeholders.class));
+        Mockito.verify(navigationTaskService, Mockito.never()).start(Mockito.any(), Mockito.any());
 
     }
 

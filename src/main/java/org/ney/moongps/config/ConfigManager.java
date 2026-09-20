@@ -87,7 +87,7 @@ public class ConfigManager implements MoonGPSConfig {
     private static final String PATH_WORLDS_ENABLED = "settings.worlds.enabled";
     private static final String PATH_WORLDS_LIST = "settings.worlds.list";
     private static final String PATH_PREFIX = "messages.prefix";
-    private static final String PATH_DIRECTION_RELATIVE = "messages.direction.relative";
+    private static final String PATH_DIRECTION_RELATIVE = "settings.direction.relative";
 
     private static final long DEFAULT_INTERVAL = 8L;
     private static final double DEFAULT_REACH_DISTANCE = 2.0D;
@@ -134,6 +134,7 @@ public class ConfigManager implements MoonGPSConfig {
     private Messages invalidWorldMessage;
     private Messages markWorldNotLoadedMessage;
     private Messages alreadyHasGoalMessage;
+    private Messages alreadyAtMarkMessage;
     private Messages enabledMessage;
     private Messages disabledMessage;
     private Messages stoppedWorldChangedMessage;
@@ -211,6 +212,7 @@ public class ConfigManager implements MoonGPSConfig {
         invalidWorldMessage = messages("messages.invalid_world");
         markWorldNotLoadedMessage = messages("messages.mark_world_not_loaded");
         alreadyHasGoalMessage = messages("messages.already_has_goal");
+        alreadyAtMarkMessage = messages("messages.already_at_mark");
         enabledMessage = messages("messages.enabled");
         disabledMessage = messages("messages.disabled");
         stoppedWorldChangedMessage = messages("messages.stopped_world_changed");
@@ -609,6 +611,11 @@ public class ConfigManager implements MoonGPSConfig {
     @Override
     public Messages getAlreadyHasGoalMessage() {
         return alreadyHasGoalMessage;
+    }
+
+    @Override
+    public Messages getAlreadyAtMarkMessage() {
+        return alreadyAtMarkMessage;
     }
 
     @Override

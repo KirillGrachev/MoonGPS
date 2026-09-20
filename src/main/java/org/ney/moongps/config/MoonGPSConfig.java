@@ -84,6 +84,8 @@ public interface MoonGPSConfig {
 
     Messages getAlreadyHasGoalMessage();
 
+    Messages getAlreadyAtMarkMessage();
+
     Messages getEnabledMessage();
 
     Messages getDisabledMessage();
