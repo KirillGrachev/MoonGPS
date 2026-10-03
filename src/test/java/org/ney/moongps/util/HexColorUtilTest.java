@@ -11,19 +11,15 @@ class HexColorUtilTest {
     @Test
     @DisplayName("Пустая и null строка возвращают пустую строку")
     void colorReturnsEmptyForNullOrEmpty() {
-
         assertEquals("", HexColorUtil.color(null));
         assertEquals("", HexColorUtil.color(""));
-
     }
 
     @Test
     @DisplayName("HEX-код конвертируется в формат &x&R&R&G&G&B&B")
     void colorConvertsHexCode() {
-
         String result = HexColorUtil.color("#ff0000Text");
         assertEquals("§x§f§f§0§0§0§0Text", result);
-
     }
 
     @Test
@@ -40,10 +36,8 @@ class HexColorUtilTest {
     @Test
     @DisplayName("Некорректный HEX-код остаётся без изменений")
     void colorKeepsInvalidHexCode() {
-
         String result = HexColorUtil.color("#zzzzzz");
         assertEquals("#zzzzzz", result);
-
     }
 
     @Test

@@ -31,13 +31,11 @@ public class DeleteGoalCommand implements GpsSubCommand {
                              @NotNull GoalStorage goalStorage,
                              @NotNull NavigationService navigationService,
                              @NotNull MessageService messageService) {
-
         this.configManager = configManager;
         this.goalRegistry = goalRegistry;
         this.goalStorage = goalStorage;
         this.navigationService = navigationService;
         this.messageService = messageService;
-
     }
 
     @Override
@@ -59,10 +57,8 @@ public class DeleteGoalCommand implements GpsSubCommand {
     public boolean execute(@NotNull CommandContext context, String @NotNull [] args) {
 
         if (args.length < 1) {
-
             messageService.send(context.sender(), configManager.getUsageMessage(), Placeholders.create());
             return true;
-
         }
 
         String goalName = args[0];
@@ -73,6 +69,7 @@ public class DeleteGoalCommand implements GpsSubCommand {
             messageService.send(context.sender(), configManager.getMarkNotFoundMessage(),
                     Placeholders.create().add("gps", goalName)
             );
+
             return true;
 
         }
@@ -94,9 +91,7 @@ public class DeleteGoalCommand implements GpsSubCommand {
 
     @Override
     public @NotNull List<String> complete(@NotNull CommandContext context, String @NotNull [] args) {
-
         if (args.length != 1) return List.of();
         return goalRegistry.getSortedGoalNames();
-
     }
 }

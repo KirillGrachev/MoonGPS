@@ -97,7 +97,6 @@ class BossBarServiceTest {
     void removeDetaches() {
 
         bossBarService.update(player, "text", 100.0D);
-
         bossBarService.remove(player.getUniqueId());
 
         Mockito.verify(bossBar).removeAll();
@@ -110,7 +109,6 @@ class BossBarServiceTest {
     void removeAllBars() {
 
         bossBarService.update(player, "text", 100.0D);
-
         bossBarService.removeAll();
 
         Mockito.verify(bossBar).removeAll();
@@ -131,9 +129,7 @@ class BossBarServiceTest {
         Mockito.verify(bossBar).setProgress(1.0D);
 
         ArgumentCaptor<Runnable> captor = ArgumentCaptor.forClass(Runnable.class);
-
         Mockito.verify(scheduler).runTaskLater(Mockito.eq(plugin), captor.capture(), Mockito.eq(40L));
-
         captor.getValue().run();
 
         Mockito.verify(bossBar).removeAll();
@@ -141,12 +137,10 @@ class BossBarServiceTest {
     }
 
     private DisplaySettings display(BossBarProgress progress) {
-
         return new DisplaySettings(
                 false, false, true, false,
                 null, null, null, null,
                 BarColor.BLUE, BarStyle.SOLID, progress
         );
-
     }
 }

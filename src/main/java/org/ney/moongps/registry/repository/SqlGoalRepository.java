@@ -33,12 +33,10 @@ public class SqlGoalRepository implements GoalRepository {
                              @NotNull SqlSettings settings,
                              @NotNull StorageType storageType,
                              @NotNull Logger logger) {
-
         this.connectionFactory = connectionFactory;
         this.settings = settings;
         this.storageType = storageType;
         this.logger = logger;
-
     }
 
     @Override
@@ -52,12 +50,10 @@ public class SqlGoalRepository implements GoalRepository {
      * @throws SQLException если база недоступна
      */
     public void connect() throws SQLException {
-
         Connection current = connection();
         try (Statement statement = current.createStatement()) {
             statement.executeUpdate(createTableQuery());
         }
-
     }
 
     @Override
@@ -101,11 +97,10 @@ public class SqlGoalRepository implements GoalRepository {
         String query = "INSERT INTO " + table() + " (name, x, y, z, world, permission) VALUES (?, ?, ?, ?, ?, ?) "
                 + "ON DUPLICATE KEY UPDATE x = VALUES(x), y = VALUES(y), z = VALUES(z), "
                 + "world = VALUES(world), permission = VALUES(permission)";
-        try (PreparedStatement statement = connection().prepareStatement(query)) {
 
+        try (PreparedStatement statement = connection().prepareStatement(query)) {
             fillStatement(statement, goal);
             statement.executeUpdate();
-
         } catch (SQLException exception) {
             logger.severe("Failed to save mark '" + goal.name() + "' to SQL: " + exception.getMessage());
         }
@@ -118,6 +113,7 @@ public class SqlGoalRepository implements GoalRepository {
         String query = "INSERT INTO " + table() + " (name, x, y, z, world, permission) VALUES (?, ?, ?, ?, ?, ?) "
                 + "ON DUPLICATE KEY UPDATE x = VALUES(x), y = VALUES(y), z = VALUES(z), "
                 + "world = VALUES(world), permission = VALUES(permission)";
+
         try {
 
             Connection current = connection();
@@ -128,20 +124,16 @@ public class SqlGoalRepository implements GoalRepository {
             try (PreparedStatement statement = current.prepareStatement(query)) {
 
                 for (GPSGoal goal : goals) {
-
                     fillStatement(statement, goal);
                     statement.addBatch();
-
                 }
 
                 statement.executeBatch();
                 current.commit();
 
             } catch (SQLException exception) {
-
                 current.rollback();
                 throw exception;
-
             } finally {
                 current.setAutoCommit(autoCommit);
             }
@@ -156,11 +148,10 @@ public class SqlGoalRepository implements GoalRepository {
     public void delete(@NotNull String goalName) {
 
         String query = "DELETE FROM " + table() + " WHERE name = ?";
-        try (PreparedStatement statement = connection().prepareStatement(query)) {
 
+        try (PreparedStatement statement = connection().prepareStatement(query)) {
             statement.setString(1, goalName);
             statement.executeUpdate();
-
         } catch (SQLException exception) {
             logger.severe("Failed to delete mark '" + goalName + "' from SQL: " + exception.getMessage());
         }
@@ -171,6 +162,7 @@ public class SqlGoalRepository implements GoalRepository {
     public void close() {
 
         if (connection == null) return;
+
         try {
             connection.close();
         } catch (SQLException exception) {
@@ -190,24 +182,20 @@ public class SqlGoalRepository implements GoalRepository {
         }
 
         connection = connectionFactory.open();
-
         return connection;
 
     }
 
     private void fillStatement(@NotNull PreparedStatement statement, @NotNull GPSGoal goal) throws SQLException {
-
         statement.setString(1, goal.name());
         statement.setDouble(2, goal.x());
         statement.setDouble(3, goal.y());
         statement.setDouble(4, goal.z());
         statement.setString(5, goal.world());
         statement.setString(6, goal.permission());
-
     }
 
     private @NotNull String createTableQuery() {
-
         return "CREATE TABLE IF NOT EXISTS " + table() + " ("
                 + "name VARCHAR(64) NOT NULL PRIMARY KEY, "
                 + "x DOUBLE NOT NULL, "
@@ -216,7 +204,6 @@ public class SqlGoalRepository implements GoalRepository {
                 + "world VARCHAR(64) NOT NULL, "
                 + "permission VARCHAR(128) NULL"
                 + ")";
-
     }
 
     /**

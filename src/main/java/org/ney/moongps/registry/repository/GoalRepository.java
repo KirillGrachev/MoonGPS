@@ -51,4 +51,5 @@ public interface GoalRepository {
      * Освобождает ресурсы хранилища.
      */
     void close();
+
 }

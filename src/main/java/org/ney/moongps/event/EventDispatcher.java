@@ -22,10 +22,8 @@ public class EventDispatcher {
      * @param listeners слушатели событий
      */
     public void registerEvents(Listener @NotNull ... listeners) {
-
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener, plugin);
         }
-
     }
 }

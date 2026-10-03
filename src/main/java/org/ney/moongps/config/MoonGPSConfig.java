@@ -14,8 +14,6 @@ import java.util.List;
  */
 public interface MoonGPSConfig {
 
-    /** Основные настройки */
-
     boolean isNavigatorEnabled();
 
     boolean arePermissionsEnabled();
@@ -40,8 +38,6 @@ public interface MoonGPSConfig {
 
     List<String> getAllowedWorlds();
 
-    /** Группы настроек */
-
     boolean isDownloadLibrariesEnabled();
 
     StorageSettings getStorageSettings();
@@ -52,8 +48,6 @@ public interface MoonGPSConfig {
 
     ReachSettings getReachSettings();
 
-    /** Права доступа */
-
     String getPermissionUse();
 
     String getPermissionList();
@@ -63,8 +57,6 @@ public interface MoonGPSConfig {
     String getPermissionDelete();
 
     String getPermissionReload();
-
-    /** Сообщения */
 
     String getPrefix();
 
@@ -111,4 +103,5 @@ public interface MoonGPSConfig {
     Messages getDeleteSuccessMessage();
 
     Messages getReloadSuccessMessage();
+
 }

@@ -47,7 +47,6 @@ class GpsCommandTest {
         listSubCommand = new FakeSubCommand("list", null, true, false);
 
         goalVisibilityService = Mockito.mock(GoalVisibilityService.class);
-
         Mockito.when(goalVisibilityService.filterVisible(Mockito.any(), Mockito.any()))
                 .thenAnswer(invocation -> List.copyOf(invocation.getArgument(1, java.util.Collection.class)));
 
@@ -104,10 +103,8 @@ class GpsCommandTest {
     @Test
     @DisplayName("Неизвестный первый аргумент считается меткой")
     void unknownArgumentGoesToDefault() {
-
         gpsCommand.onCommand(player, command, "gps", new String[]{"shop"});
         assertEquals("shop", defaultSubCommand.calls.get(0)[0]);
-
     }
 
     @Test
@@ -115,13 +112,10 @@ class GpsCommandTest {
     void consoleBlocked() {
 
         CommandSender console = Mockito.mock(CommandSender.class);
-
         gpsCommand.onCommand(console, command, "gps", new String[]{"list"});
-
         Messages onlyPlayers = new Messages(List.of("only players"), true);
 
         Mockito.when(configManager.getOnlyPlayersMessage()).thenReturn(onlyPlayers);
-
         gpsCommand.onCommand(console, command, "gps", new String[]{"list"});
 
         assertEquals(0, listSubCommand.calls.size());
@@ -134,13 +128,10 @@ class GpsCommandTest {
     void noPermission() {
 
         listSubCommand.permission = "moongps.list";
-
         Mockito.when(permissionService.hasPermission(player, "moongps.list")).thenReturn(false);
-
         Messages noPermission = new Messages(List.of("no permission"), true);
 
         Mockito.when(configManager.getNoPermissionMessage()).thenReturn(noPermission);
-
         gpsCommand.onCommand(player, command, "gps", new String[]{"list"});
 
         assertEquals(0, listSubCommand.calls.size());
@@ -151,28 +142,22 @@ class GpsCommandTest {
     @Test
     @DisplayName("Автодополнение первого аргумента: сначала метки, затем подкоманды")
     void completeFirstArgument() {
-
         List<String> completions = gpsCommand.onTabComplete(player, command, "gps", new String[]{""});
         assertEquals(List.of("shop", "bank", "list"), completions);
-
     }
 
     @Test
     @DisplayName("Скрытые подкоманды не подсказываются")
     void hiddenSubCommandNotCompleted() {
-
         List<String> completions = gpsCommand.onTabComplete(player, command, "gps", new String[]{"t"});
         assertEquals(List.of(), completions);
-
     }
 
     @Test
     @DisplayName("Автодополнение фильтруется по префиксу")
     void completeFiltered() {
-
         List<String> completions = gpsCommand.onTabComplete(player, command, "gps", new String[]{"sh"});
         assertEquals(List.of("shop"), completions);
-
     }
 
     @Test
@@ -180,7 +165,6 @@ class GpsCommandTest {
     void completeWithoutUsePermission() {
 
         Mockito.when(permissionService.hasPermission(player, "moongps.use")).thenReturn(false);
-
         List<String> completions = gpsCommand.onTabComplete(player, command, "gps", new String[]{""});
 
         assertFalse(completions.contains("shop"));
@@ -193,7 +177,6 @@ class GpsCommandTest {
     void completeSecondArgument() {
 
         listSubCommand.completions = List.of("1", "2");
-
         List<String> completions = gpsCommand.onTabComplete(player, command, "gps", new String[]{"list", ""});
 
         assertEquals(List.of("1", "2"), completions);
@@ -214,12 +197,10 @@ class GpsCommandTest {
         private boolean hidden;
 
         private FakeSubCommand(@NotNull String name, @Nullable String permission, boolean playerOnly, boolean hidden) {
-
             this.name = name;
             this.permission = permission;
             this.playerOnly = playerOnly;
             this.hidden = hidden;
-
         }
 
         @Override
@@ -244,10 +225,8 @@ class GpsCommandTest {
 
         @Override
         public boolean execute(@NotNull CommandContext context, String @NotNull [] args) {
-
             calls.add(args);
             return true;
-
         }
 
         @Override
@@ -255,6 +234,7 @@ class GpsCommandTest {
             return completions;
         }
     }
+
     private GPSGoal goal(String name) {
         return new GPSGoal(name, 0.0D, 0.0D, 0.0D, "world", null);
     }

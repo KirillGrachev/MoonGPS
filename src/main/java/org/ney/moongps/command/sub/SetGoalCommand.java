@@ -32,13 +32,11 @@ public class SetGoalCommand implements GpsSubCommand {
                           @NotNull GoalStorage goalStorage,
                           @NotNull NavigationService navigationService,
                           @NotNull MessageService messageService) {
-
         this.configManager = configManager;
         this.goalRegistry = goalRegistry;
         this.goalStorage = goalStorage;
         this.navigationService = navigationService;
         this.messageService = messageService;
-
     }
 
     @Override
@@ -60,10 +58,8 @@ public class SetGoalCommand implements GpsSubCommand {
     public boolean execute(@NotNull CommandContext context, String @NotNull [] args) {
 
         if (args.length < 1) {
-
             messageService.send(context.sender(), configManager.getUsageMessage(), Placeholders.create());
             return true;
-
         }
 
         String goalName = args[0];
@@ -73,6 +69,7 @@ public class SetGoalCommand implements GpsSubCommand {
             messageService.send(context.sender(), configManager.getSetInvalidNameMessage(),
                     Placeholders.create().add("gps", goalName)
             );
+
             return true;
 
         }
@@ -87,7 +84,6 @@ public class SetGoalCommand implements GpsSubCommand {
 
         // Игроки, идущие к старой версии метки, продолжают путь к новым координатам
         navigationService.refreshGoalForEveryone(goal.name());
-
         messageService.send(context.sender(),
                 goalExists ? configManager.getSetUpdatedMessage() : configManager.getSetSuccessMessage(),
                 goalPlaceholders(goal)
@@ -123,7 +119,6 @@ public class SetGoalCommand implements GpsSubCommand {
     }
 
     private @NotNull Placeholders goalPlaceholders(@NotNull GPSGoal goal) {
-
         return Placeholders.create()
                 .add("gps", goal.name())
                 .add("world", goal.world())
@@ -131,6 +126,5 @@ public class SetGoalCommand implements GpsSubCommand {
                 .add("y", String.format("%.1f", goal.y()))
                 .add("z", String.format("%.1f", goal.z()))
                 .add("permission", goal.permission() == null ? "-" : goal.permission());
-
     }
 }

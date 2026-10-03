@@ -38,10 +38,8 @@ public class YamlGoalRepository implements GoalRepository {
     }
 
     private void createFileIfNotExists() {
-
         if (goalsFile.exists()) return;
         plugin.saveResource(FILE_NAME, false);
-
     }
 
     @Override
@@ -58,10 +56,8 @@ public class YamlGoalRepository implements GoalRepository {
         List<GPSGoal> goals = new ArrayList<>();
 
         if (marksSection == null) {
-
             plugin.getLogger().warning("Section 'marks' not found in goals.yml - no marks loaded");
             return goals;
-
         }
 
         for (String goalKey : marksSection.getKeys(false)) {
@@ -69,10 +65,8 @@ public class YamlGoalRepository implements GoalRepository {
             GPSGoal goal = readGoal(marksSection.getConfigurationSection(goalKey), goalKey);
 
             if (goal == null) {
-
                 plugin.getLogger().warning("Mark '" + goalKey + "' in goals.yml is invalid and has been skipped");
                 continue;
-
             }
 
             goals.add(goal);
@@ -120,11 +114,7 @@ public class YamlGoalRepository implements GoalRepository {
     }
 
     @Override
-    public void close() {
-        // Файл не держит открытых ресурсов
-    }
-
-    /* Чтение и запись файла */
+    public void close() {}
 
     private @Nullable GPSGoal readGoal(@Nullable ConfigurationSection goalSection, @NotNull String goalKey) {
 
@@ -188,13 +178,11 @@ public class YamlGoalRepository implements GoalRepository {
      * @param goalName     название метки
      */
     private void removeDuplicates(@NotNull ConfigurationSection marksSection, @NotNull String goalName) {
-
         String normalizedName = goalName.toLowerCase(Locale.ROOT);
         marksSection.getKeys(false).stream()
                 .filter(key -> key.toLowerCase(Locale.ROOT).equals(normalizedName))
                 .toList()
                 .forEach(key -> marksSection.set(key, null));
-
     }
 
     /**
@@ -203,12 +191,10 @@ public class YamlGoalRepository implements GoalRepository {
      * @return название мира или "world", если миры ещё не загружены
      */
     private @NotNull String getDefaultWorldName() {
-
         return Bukkit.getWorlds().stream()
                 .findFirst()
                 .map(world -> world.getName())
                 .orElse("world");
-
     }
 
     private double round(double value) {
@@ -216,12 +202,10 @@ public class YamlGoalRepository implements GoalRepository {
     }
 
     private void saveFile(@NotNull FileConfiguration fileConfiguration) {
-
         try {
             fileConfiguration.save(goalsFile);
         } catch (IOException exception) {
             plugin.getLogger().severe("Failed to save " + FILE_NAME + ": " + exception.getMessage());
         }
-
     }
 }

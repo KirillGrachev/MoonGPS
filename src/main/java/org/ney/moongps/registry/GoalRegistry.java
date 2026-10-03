@@ -45,10 +45,8 @@ public class GoalRegistry {
      * @return метка или null, если она не найдена
      */
     public @Nullable GPSGoal getGoal(@Nullable String goalName) {
-
         if (goalName == null || goalName.isBlank()) return null;
         return registeredGoals.get(normalizeGoalName(goalName));
-
     }
 
     /**
@@ -79,12 +77,10 @@ public class GoalRegistry {
      * @return отсортированный список названий
      */
     public @NotNull List<String> getSortedGoalNames() {
-
         return registeredGoals.values().stream()
                 .map(GPSGoal::name)
                 .sorted(Comparator.naturalOrder())
                 .toList();
-
     }
 
     /**
@@ -93,11 +89,9 @@ public class GoalRegistry {
      * @return отсортированная коллекция меток
      */
     public @NotNull List<GPSGoal> getSortedGoals() {
-
         return registeredGoals.values().stream()
                 .sorted(Comparator.comparing(GPSGoal::name))
                 .toList();
-
     }
 
     /**
@@ -106,13 +100,11 @@ public class GoalRegistry {
      * @return отсортированные названия прав без повторов
      */
     public @NotNull List<String> getUsedPermissions() {
-
         return registeredGoals.values().stream()
                 .map(GPSGoal::permission)
                 .filter(Objects::nonNull)
                 .distinct()
                 .sorted(Comparator.naturalOrder())
                 .toList();
-
     }
 }

@@ -46,7 +46,6 @@ public class NavigationService {
                              @NotNull GoalVisibilityService goalVisibilityService,
                              @NotNull BossBarService bossBarService,
                              @NotNull GoalNotifier goalNotifier) {
-
         this.configManager = configManager;
         this.goalRegistry = goalRegistry;
         this.navigationTaskService = navigationTaskService;
@@ -55,7 +54,6 @@ public class NavigationService {
         this.goalVisibilityService = goalVisibilityService;
         this.bossBarService = bossBarService;
         this.goalNotifier = goalNotifier;
-
     }
 
     /**
@@ -70,17 +68,13 @@ public class NavigationService {
     public boolean toggleGoal(@NotNull Player player, @Nullable String goalName, boolean notify) {
 
         if (!configManager.isNavigatorEnabled()) {
-
             sendIfNotify(player, notify, configManager.getNavigationDisabledMessage(), Placeholders.create());
             return false;
-
         }
 
         if (!hasPermission(player, configManager.getPermissionUse())) {
-
             sendIfNotify(player, notify, configManager.getNoPermissionMessage(), Placeholders.create());
             return false;
-
         }
 
         if (!isPlayerWorldAllowed(player)) {
@@ -88,6 +82,7 @@ public class NavigationService {
             sendIfNotify(player, notify, configManager.getInvalidWorldMessage(),
                     Placeholders.create().add("world", player.getWorld().getName())
             );
+
             return false;
 
         }
@@ -99,6 +94,7 @@ public class NavigationService {
             sendIfNotify(player, notify, configManager.getMarkNotFoundMessage(),
                     Placeholders.create().add("gps", Objects.toString(goalName, ""))
             );
+
             return false;
 
         }
@@ -127,24 +123,19 @@ public class NavigationService {
         }
 
         if (!goal.isWorldLoaded()) {
-
             sendIfNotify(player, notify, configManager.getMarkWorldNotLoadedMessage(), goalPlaceholders(goal));
             return false;
-
         }
 
         if (!hasGoalPermission(player, goal)) {
-
             sendIfNotify(player, notify, configManager.getNoPermissionMessage(), goalPlaceholders(goal));
             return false;
-
         }
 
         Location goalLocation = goal.toLocation();
 
         if (goalLocation != null
                 && player.getLocation().distance(goalLocation) <= configManager.getReachDistance()) {
-
             sendIfNotify(player, notify, configManager.getAlreadyAtMarkMessage(), goalPlaceholders(goal));
             return false;
         }
@@ -191,12 +182,10 @@ public class NavigationService {
      * @param goalName название метки
      */
     public void stopGoalForEveryone(@NotNull String goalName) {
-
         activeSessions.values().stream()
                 .filter(session -> isSameGoal(session, goalName))
                 .toList()
                 .forEach(this::stopSessionSilently);
-
     }
 
     /**
@@ -228,11 +217,9 @@ public class NavigationService {
         sessions.forEach(session -> {
 
             Player player = session.getPlayer();
-
             stopSessionSilently(session);
 
             if (notify && player != null) {
-
                 messageService.send(player, configManager.getDisabledMessage(),
                         goalPlaceholders(session.getGoal())
                 );
@@ -258,10 +245,8 @@ public class NavigationService {
      * @return метка или null, если навигатор выключен
      */
     public @Nullable GPSGoal getActiveGoal(@NotNull Player player) {
-
         NavigationSession session = activeSessions.get(player.getUniqueId());
         return session == null ? null : session.getGoal();
-
     }
 
     public int getActiveSessionsCount() {
@@ -290,7 +275,6 @@ public class NavigationService {
         Bukkit.getPluginManager().callEvent(reachedEvent);
 
         if (reachedEvent.isCancelled()) return;
-
         goalNotifier.notifyGoalReached(player, goal);
 
     }
@@ -299,6 +283,7 @@ public class NavigationService {
 
         activeSessions.remove(player.getUniqueId());
         bossBarService.remove(player.getUniqueId());
+
         session.stop();
 
     }
@@ -307,6 +292,7 @@ public class NavigationService {
 
         activeSessions.remove(session.getPlayerUUID());
         bossBarService.remove(session.getPlayerUUID());
+
         session.stop();
 
     }
@@ -326,28 +312,21 @@ public class NavigationService {
     }
 
     private boolean isPlayerWorldAllowed(@NotNull Player player) {
-
         if (!configManager.areWorldsRestricted()) return true;
         return configManager.getAllowedWorlds().contains(player.getWorld().getName());
-
     }
 
     private void sendIfNotify(@NotNull Player player,
                               boolean notify,
                               @NotNull Messages messages,
                               @NotNull Placeholders placeholders) {
-
         if (!notify) return;
         messageService.send(player, messages, placeholders);
-
     }
 
     private @NotNull Placeholders goalPlaceholders(@NotNull GPSGoal goal) {
-
         return Placeholders.create()
                 .add("gps", goal.name())
                 .add("world", goal.world());
-
     }
-
 }

@@ -23,9 +23,7 @@ public class PlayerQuitListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(@NotNull PlayerQuitEvent event) {
-
         Player player = event.getPlayer();
         navigationService.stopNavigation(player, false);
-
     }
 }

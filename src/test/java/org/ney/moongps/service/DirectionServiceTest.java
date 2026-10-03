@@ -59,19 +59,15 @@ class DirectionServiceTest {
     @Test
     @DisplayName("Метка по курсу игрока - AHEAD")
     void goalAhead() {
-
         assertEquals(Direction.Relative.AHEAD, relative(YAW_NORTH, 0.0D, -10.0D));
         assertEquals(Direction.Relative.AHEAD, relative(YAW_SOUTH, 0.0D, 10.0D));
-
     }
 
     @Test
     @DisplayName("Метка за спиной игрока - BEHIND")
     void goalBehind() {
-
         assertEquals(Direction.Relative.BEHIND, relative(YAW_NORTH, 0.0D, 10.0D));
         assertEquals(Direction.Relative.BEHIND, relative(YAW_SOUTH, 0.0D, -10.0D));
-
     }
 
     @Test
@@ -110,10 +106,8 @@ class DirectionServiceTest {
     @Test
     @DisplayName("Диагональ не попадает в узкие секторы прямо/назад")
     void diagonalIsSideDirection() {
-
         Direction.Relative relative = relative(YAW_NORTH, 10.0D, -10.0D);
         assertEquals(Direction.Relative.RIGHT, relative);
-
     }
 
     @Test
@@ -134,19 +128,15 @@ class DirectionServiceTest {
     @Test
     @DisplayName("Расстояние считается в блоках")
     void distanceCalculated() {
-
         double distance = directionService.calculateDistance(at(0.0D, 0.0D, 0.0D), at(3.0D, 0.0D, 4.0D));
         assertEquals(5.0D, distance, 0.0001D);
-
     }
 
     @Test
     @DisplayName("Формат направления подставляет стрелку и название")
     void formatAppliesPattern() {
-
         Direction direction = directionService.calculateDirection(player(YAW_NORTH), goal(0.0D, -10.0D));
         assertEquals("[↑] AHEAD", directionService.format(direction));
-
     }
 
     @Test

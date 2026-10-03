@@ -22,6 +22,7 @@ class PermissionServiceTest {
 
         configManager = Mockito.mock(ConfigManager.class);
         permissionService = new PermissionService(configManager);
+
         sender = Mockito.mock(CommandSender.class);
 
     }

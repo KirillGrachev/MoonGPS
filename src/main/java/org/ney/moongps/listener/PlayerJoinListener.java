@@ -20,17 +20,14 @@ public class PlayerJoinListener implements Listener {
 
     public PlayerJoinListener(@NotNull ConfigManager configManager,
                               @NotNull NavigationService navigationService) {
-
         this.configManager = configManager;
         this.navigationService = navigationService;
-
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
 
         String autoStartGoal = configManager.getAutoStartGoal();
-
         if (autoStartGoal.isEmpty()) return;
 
         navigationService.toggleGoal(event.getPlayer(), autoStartGoal, false);

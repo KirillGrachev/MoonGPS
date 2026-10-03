@@ -52,9 +52,7 @@ class GPSGoalTest {
     void toLocation() {
 
         World world = BukkitSupport.world("world");
-
         GPSGoal goal = new GPSGoal("shop", 1.0D, 2.0D, 3.0D, "world", null);
-
         assertTrue(goal.isWorldLoaded());
 
         Location location = goal.toLocation();

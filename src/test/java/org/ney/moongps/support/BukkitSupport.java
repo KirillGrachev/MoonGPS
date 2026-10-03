@@ -24,9 +24,7 @@ public final class BukkitSupport {
 
     }
 
-    private BukkitSupport() {
-
-    }
+    private BukkitSupport() {}
 
     public static @NotNull Server server() {
         return SERVER;
@@ -40,7 +38,6 @@ public final class BukkitSupport {
     public static @NotNull PluginManager newPluginManager() {
 
         PluginManager pluginManager = Mockito.mock(PluginManager.class);
-
         Mockito.when(SERVER.getPluginManager()).thenReturn(pluginManager);
 
         return pluginManager;

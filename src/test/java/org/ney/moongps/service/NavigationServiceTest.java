@@ -120,7 +120,6 @@ class NavigationServiceTest {
     void navigatorDisabled() {
 
         Mockito.when(configManager.isNavigatorEnabled()).thenReturn(false);
-
         assertFalse(navigationService.toggleGoal(player, "shop", true));
 
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(navigationDisabledMessage), Mockito.any(Placeholders.class));
@@ -133,7 +132,6 @@ class NavigationServiceTest {
     void noUsePermission() {
 
         Mockito.when(permissionService.hasPermission(player, "moongps.use")).thenReturn(false);
-
         assertFalse(navigationService.toggleGoal(player, "shop", true));
 
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(noPermissionMessage), Mockito.any(Placeholders.class));
@@ -145,9 +143,7 @@ class NavigationServiceTest {
     void wrongWorld() {
 
         World nether = BukkitSupport.world("nether");
-
         Mockito.when(player.getWorld()).thenReturn(nether);
-
         assertFalse(navigationService.toggleGoal(player, "shop", true));
 
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(invalidWorldMessage), Mockito.any(Placeholders.class));
@@ -159,7 +155,6 @@ class NavigationServiceTest {
     void toggleAtMark() {
 
         Mockito.when(player.getLocation()).thenReturn(new Location(world, 10.0D, 70.0D, 10.0D));
-
         assertFalse(navigationService.toggleGoal(player, "shop", true));
 
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(alreadyAtMarkMessage), Mockito.any(Placeholders.class));
@@ -172,7 +167,6 @@ class NavigationServiceTest {
     void hiddenGoalNotFound() {
 
         Mockito.when(goalVisibilityService.isVisible(Mockito.eq(player), Mockito.eq(GOAL))).thenReturn(false);
-
         assertFalse(navigationService.toggleGoal(player, "shop", true));
 
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(markNotFoundMessage), Mockito.any(Placeholders.class));
@@ -182,10 +176,8 @@ class NavigationServiceTest {
     @Test
     @DisplayName("Несуществующая метка даёт сообщение об ошибке")
     void goalNotFound() {
-
         assertFalse(navigationService.toggleGoal(player, "unknown", true));
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(markNotFoundMessage), Mockito.any(Placeholders.class));
-
     }
 
     @Test
@@ -205,7 +197,6 @@ class NavigationServiceTest {
     void alreadyHasGoal() {
 
         GPSGoal second = new GPSGoal("bank", 1.0D, 2.0D, 3.0D, "world", null);
-
         Mockito.when(goalRegistry.getGoal("bank")).thenReturn(second);
 
         assertTrue(navigationService.toggleGoal(player, "shop", false));
@@ -220,7 +211,6 @@ class NavigationServiceTest {
     void goalWorldNotLoaded() {
 
         BukkitSupport.clearWorlds();
-
         assertFalse(navigationService.toggleGoal(player, "shop", true));
 
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(markWorldNotLoadedMessage), Mockito.any(Placeholders.class));
@@ -237,7 +227,6 @@ class NavigationServiceTest {
         Mockito.when(permissionService.hasPermission(player, "moongps.mark.bank")).thenReturn(false);
 
         assertFalse(navigationService.toggleGoal(player, "bank", true));
-
         Mockito.verify(permissionService).hasPermission(player, "moongps.mark.bank");
 
     }
@@ -256,7 +245,6 @@ class NavigationServiceTest {
         }).when(pluginManager).callEvent(Mockito.any(GoalNavigateEvent.class));
 
         assertFalse(navigationService.toggleGoal(player, "shop", true));
-
         Mockito.verify(navigationTaskService, Mockito.never()).start(Mockito.any(), Mockito.any());
 
     }
@@ -295,7 +283,6 @@ class NavigationServiceTest {
     void stopGoalForEveryone() {
 
         navigationService.toggleGoal(player, "shop", false);
-
         navigationService.stopGoalForEveryone("shop");
 
         assertEquals(0, navigationService.getActiveSessionsCount());
@@ -307,7 +294,6 @@ class NavigationServiceTest {
     void stopAllNotifies() {
 
         navigationService.toggleGoal(player, "shop", false);
-
         navigationService.stopAll(true);
 
         assertEquals(0, navigationService.getActiveSessionsCount());
@@ -321,7 +307,6 @@ class NavigationServiceTest {
     void stopAllSilent() {
 
         navigationService.toggleGoal(player, "shop", false);
-
         navigationService.stopAll(false);
 
         assertEquals(0, navigationService.getActiveSessionsCount());
@@ -334,7 +319,6 @@ class NavigationServiceTest {
     void cancelAll() {
 
         navigationService.toggleGoal(player, "shop", false);
-
         navigationService.cancelAll();
 
         assertEquals(0, navigationService.getActiveSessionsCount());
@@ -344,10 +328,8 @@ class NavigationServiceTest {
     @Test
     @DisplayName("Событие включения вызывается в Bukkit")
     void navigateEventFired() {
-
         navigationService.toggleGoal(player, "shop", false);
         Mockito.verify(pluginManager).callEvent(Mockito.any(GoalNavigateEvent.class));
-
     }
 
     @Test
@@ -355,7 +337,6 @@ class NavigationServiceTest {
     void sessionUsesPlayerUuid() {
 
         navigationService.toggleGoal(player, "shop", false);
-
         NavigationSession session = captureSession();
 
         assertEquals(player.getUniqueId(), session.getPlayerUUID());
@@ -367,7 +348,6 @@ class NavigationServiceTest {
     void goalReachedFromTask() {
 
         navigationService.toggleGoal(player, "shop", false);
-
         captureOnReach().accept(player, GOAL);
 
         Mockito.verify(pluginManager).callEvent(Mockito.any(GoalReachedEvent.class));
@@ -390,7 +370,6 @@ class NavigationServiceTest {
         }).when(pluginManager).callEvent(Mockito.any(GoalReachedEvent.class));
 
         navigationService.toggleGoal(player, "shop", false);
-
         captureOnReach().accept(player, GOAL);
 
         Mockito.verify(goalNotifier, Mockito.never()).notifyGoalReached(Mockito.any(), Mockito.any());
@@ -402,7 +381,6 @@ class NavigationServiceTest {
 
         org.mockito.ArgumentCaptor<java.util.function.BiConsumer<Player, GPSGoal>> captor =
                 org.mockito.ArgumentCaptor.forClass(java.util.function.BiConsumer.class);
-
         Mockito.verify(navigationTaskService).start(Mockito.any(), captor.capture());
 
         return captor.getValue();
@@ -412,7 +390,6 @@ class NavigationServiceTest {
     private NavigationSession captureSession() {
 
         org.mockito.ArgumentCaptor<NavigationSession> captor = org.mockito.ArgumentCaptor.forClass(NavigationSession.class);
-
         Mockito.verify(navigationTaskService).start(captor.capture(), Mockito.any());
 
         return captor.getValue();

@@ -24,10 +24,8 @@ public class NavigationSession {
     private volatile BukkitTask task;
 
     public NavigationSession(@NotNull UUID playerUUID, @NotNull GPSGoal goal) {
-
         this.playerUUID = playerUUID;
         this.goal = goal;
-
     }
 
     /**
@@ -37,12 +35,8 @@ public class NavigationSession {
      * @param bukkitTask задача обновления навигации
      */
     public void attachTask(@NotNull BukkitTask bukkitTask) {
-
         this.task = bukkitTask;
-        if (stopped.get()) {
-            bukkitTask.cancel();
-        }
-
+        if (stopped.get()) bukkitTask.cancel();
     }
 
     /**

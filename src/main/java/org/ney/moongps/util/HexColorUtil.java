@@ -58,7 +58,6 @@ public class HexColorUtil {
         }
 
         result.append(text.substring(lastEnd));
-
         return ChatColor.translateAlternateColorCodes('&',
                 result.toString());
 
@@ -73,12 +72,15 @@ public class HexColorUtil {
     private static boolean isValidHexCode(@NotNull String code) {
 
         for (int i = 1; i < code.length(); i++) {
+
             char c = code.charAt(i);
             if (!Character.isDigit(c) && (c < 'a' || c > 'f')
                     && (c < 'A' || c > 'F')) {
                 return false;
             }
+
         }
+
         return true;
 
     }

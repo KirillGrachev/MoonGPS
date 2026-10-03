@@ -46,9 +46,7 @@ class ReloadCommandTest {
     void reloadsAndReports() {
 
         Messages success = new Messages(List.of("reloaded"), true);
-
         Mockito.when(configManager.getReloadSuccessMessage()).thenReturn(success);
-
         reloadCommand.execute(CommandContext.of(sender), new String[0]);
 
         Mockito.verify(plugin).reloadPlugin();
@@ -61,7 +59,6 @@ class ReloadCommandTest {
     void reloadWithoutNavigationService() {
 
         Mockito.when(plugin.getNavigationService()).thenReturn(null);
-
         reloadCommand.execute(CommandContext.of(sender), new String[0]);
 
         Mockito.verify(plugin).reloadPlugin();

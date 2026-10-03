@@ -20,10 +20,8 @@ public class GoalReachedEvent extends PlayerEvent implements Cancellable {
     private boolean cancelled;
 
     public GoalReachedEvent(@NotNull Player player, @NotNull GPSGoal goal) {
-
         super(player);
         this.goal = goal;
-
     }
 
     /**

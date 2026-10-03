@@ -41,7 +41,6 @@ class GoalNotifierTest {
         Mockito.when(directionService.format(Mockito.any(Direction.class))).thenReturn("→");
 
         goalNotifier = new GoalNotifier(configManager, messageService, directionService, bossBarService);
-
         player = Mockito.mock(Player.class);
 
         display(true, true, true, true);
@@ -53,7 +52,6 @@ class GoalNotifierTest {
     void titleOnly() {
 
         display(true, false, false, false);
-
         goalNotifier.notifyNavigation(player, GOAL, direction(), 12.0D);
 
         Mockito.verify(messageService).sendTitle(Mockito.eq(player), Mockito.any(MoonTitle.class), Mockito.any(Placeholders.class));
@@ -67,7 +65,6 @@ class GoalNotifierTest {
     void actionBarOnly() {
 
         display(false, true, false, false);
-
         goalNotifier.notifyNavigation(player, GOAL, direction(), 12.0D);
 
         Mockito.verify(messageService).sendActionBar(Mockito.eq(player), Mockito.any(Messages.class), Mockito.any(Placeholders.class));
@@ -80,7 +77,6 @@ class GoalNotifierTest {
     void bossBarOnly() {
 
         display(false, false, true, false);
-
         goalNotifier.notifyNavigation(player, GOAL, direction(), 12.0D);
 
         Mockito.verify(bossBarService).update(Mockito.eq(player), Mockito.eq("→ 12 bl. to shop"), Mockito.eq(12.0D));
@@ -99,7 +95,6 @@ class GoalNotifierTest {
         ));
 
         goalNotifier.notifyNavigation(player, GOAL, direction(), 12.0D);
-
         Mockito.verifyNoInteractions(bossBarService);
 
     }
@@ -109,7 +104,6 @@ class GoalNotifierTest {
     void allChannels() {
 
         display(true, true, true, true);
-
         goalNotifier.notifyNavigation(player, GOAL, direction(), 12.0D);
 
         Mockito.verify(messageService).sendTitle(Mockito.eq(player), Mockito.any(MoonTitle.class), Mockito.any(Placeholders.class));
@@ -135,7 +129,6 @@ class GoalNotifierTest {
         ));
 
         Mockito.when(player.getLocation()).thenReturn(new org.bukkit.Location(null, 0.0D, 0.0D, 0.0D));
-
         goalNotifier.notifyGoalReached(player, GOAL);
 
         Mockito.verify(messageService).sendTitle(Mockito.eq(player), Mockito.any(MoonTitle.class), Mockito.any(Placeholders.class));
@@ -189,7 +182,6 @@ class GoalNotifierTest {
     }
 
     private void display(boolean title, boolean actionBar, boolean bossBar, boolean chat) {
-
         Mockito.when(configManager.getDisplaySettings()).thenReturn(new DisplaySettings(
                 title, actionBar, bossBar, chat,
                 new MoonTitle("{direction}", "sub", 0, 40, 10),
@@ -198,7 +190,6 @@ class GoalNotifierTest {
                 new Messages(List.of("chat"), true),
                 BarColor.BLUE, BarStyle.SOLID, BossBarProgress.DISTANCE
         ));
-
     }
 
     private Direction direction() {

@@ -20,6 +20,7 @@ public record Direction(@NotNull Relative relative,
         LEFT,
         RIGHT,
         BEHIND
+
     }
 
     /**

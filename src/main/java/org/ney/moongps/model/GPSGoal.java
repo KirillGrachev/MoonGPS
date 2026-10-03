@@ -34,7 +34,6 @@ public record GPSGoal(@NotNull String name,
     public static @NotNull GPSGoal of(@NotNull String name,
                                       @NotNull Location location,
                                       @Nullable String permission) {
-
         return new GPSGoal(
                 name,
                 location.getX(),
@@ -43,7 +42,6 @@ public record GPSGoal(@NotNull String name,
                 location.getWorld() != null ? location.getWorld().getName() : "world",
                 permission
         );
-
     }
 
     /**

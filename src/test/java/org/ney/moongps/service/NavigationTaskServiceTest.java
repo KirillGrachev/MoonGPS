@@ -79,8 +79,8 @@ class NavigationTaskServiceTest {
         Mockito.when(configManager.getDirectionSettings()).thenReturn(new DirectionSettings(
                 DirectionMode.RELATIVE, 0.85D, -0.85D, "{arrow} {name}", Map.of(), Map.of()
         ));
-        Mockito.when(goalRegistry.getGoal("shop")).thenReturn(GOAL);
 
+        Mockito.when(goalRegistry.getGoal("shop")).thenReturn(GOAL);
         session = new NavigationSession(player.getUniqueId(), GOAL);
 
     }
@@ -91,10 +91,7 @@ class NavigationTaskServiceTest {
 
         Mockito.when(scheduler.runTaskTimerAsynchronously(Mockito.eq(plugin), Mockito.any(Runnable.class), Mockito.eq(0L), Mockito.eq(8L)))
                 .thenReturn(Mockito.mock(BukkitTask.class));
-
-        navigationTaskService.start(session, (reachedPlayer, goal) -> {
-
-        });
+        navigationTaskService.start(session, (reachedPlayer, goal) -> {});
 
         Mockito.verify(scheduler).runTaskTimerAsynchronously(
                 Mockito.eq(plugin), Mockito.any(Runnable.class), Mockito.eq(0L), Mockito.eq(8L)
@@ -107,10 +104,7 @@ class NavigationTaskServiceTest {
     void playerOffline() {
 
         Mockito.when(player.isOnline()).thenReturn(false);
-
-        tick((reachedPlayer, goal) -> {
-
-        });
+        tick((reachedPlayer, goal) -> {});
 
         assertTrue(session.isStopped());
         Mockito.verifyNoInteractions(goalNotifier);
@@ -122,10 +116,7 @@ class NavigationTaskServiceTest {
     void goalRemoved() {
 
         Mockito.when(goalRegistry.getGoal("shop")).thenReturn(null);
-
-        tick((reachedPlayer, goal) -> {
-
-        });
+        tick((reachedPlayer, goal) -> {});
 
         assertTrue(session.isStopped());
         Mockito.verifyNoInteractions(messageService);
@@ -137,10 +128,7 @@ class NavigationTaskServiceTest {
     void goalWorldNotLoaded() {
 
         BukkitSupport.clearWorlds();
-
-        tick((reachedPlayer, goal) -> {
-
-        });
+        tick((reachedPlayer, goal) -> {});
 
         assertTrue(session.isStopped());
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.any(Messages.class), Mockito.any(Placeholders.class));
@@ -156,10 +144,7 @@ class NavigationTaskServiceTest {
 
         Mockito.when(configManager.getStoppedWorldChangedMessage()).thenReturn(stoppedMessage);
         Mockito.when(player.getLocation()).thenReturn(new Location(nether, 0.0D, 70.0D, 0.0D));
-
-        tick((reachedPlayer, goal) -> {
-
-        });
+        tick((reachedPlayer, goal) -> {});
 
         assertTrue(session.isStopped());
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.any(Messages.class), Mockito.any(Placeholders.class));
@@ -174,10 +159,7 @@ class NavigationTaskServiceTest {
 
         Mockito.when(configManager.shouldStopOnWorldChange()).thenReturn(false);
         Mockito.when(player.getLocation()).thenReturn(new Location(nether, 0.0D, 70.0D, 0.0D));
-
-        tick((reachedPlayer, goal) -> {
-
-        });
+        tick((reachedPlayer, goal) -> {});
 
         assertFalse(session.isStopped());
         Mockito.verifyNoInteractions(goalNotifier);
@@ -189,9 +171,7 @@ class NavigationTaskServiceTest {
     void goalReached() {
 
         Mockito.when(player.getLocation()).thenReturn(new Location(world, 10.0D, 70.0D, 11.0D));
-
         boolean[] reached = new boolean[1];
-
         tick((reachedPlayer, goal) -> reached[0] = true);
 
         assertTrue(session.isStopped());
@@ -204,9 +184,7 @@ class NavigationTaskServiceTest {
     @DisplayName("Обычный тик выводит направление через notifier")
     void navigationRendered() {
 
-        tick((reachedPlayer, goal) -> {
-
-        });
+        tick((reachedPlayer, goal) -> {});
 
         assertFalse(session.isStopped());
         Mockito.verify(goalNotifier).notifyNavigation(Mockito.eq(player), Mockito.eq(GOAL), Mockito.any(), Mockito.eq(Math.sqrt(200.0D)));

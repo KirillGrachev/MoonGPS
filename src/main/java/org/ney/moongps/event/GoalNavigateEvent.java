@@ -20,10 +20,8 @@ public class GoalNavigateEvent extends PlayerEvent implements Cancellable {
     private boolean cancelled;
 
     public GoalNavigateEvent(@NotNull Player player, @NotNull GPSGoal goal) {
-
         super(player);
         this.goal = goal;
-
     }
 
     /**

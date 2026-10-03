@@ -27,10 +27,8 @@ public class CommandDispatcher {
         PluginCommand pluginCommand = plugin.getCommand(commandName);
 
         if (pluginCommand == null) {
-
             plugin.getLogger().severe("Command '" + commandName + "' is not declared in plugin.yml");
             return;
-
         }
 
         pluginCommand.setExecutor(tabExecutor);

@@ -30,10 +30,8 @@ public class BossBarService {
     private final Map<UUID, BarHolder> activeBars = new ConcurrentHashMap<>();
 
     public BossBarService(@NotNull MoonGPS plugin, @NotNull ConfigManager configManager) {
-
         this.plugin = plugin;
         this.configManager = configManager;
-
     }
 
     /**
@@ -97,10 +95,8 @@ public class BossBarService {
      * Снимает все полосы (при выключении плагина).
      */
     public void removeAll() {
-
         activeBars.values().forEach(holder -> holder.bar.removeAll());
         activeBars.clear();
-
     }
 
     public int getActiveBarsCount() {
@@ -130,7 +126,6 @@ public class BossBarService {
         }
 
         double progress = 1.0D - distance / holder.initialDistance;
-
         return Math.max(MIN_PROGRESS, Math.min(MAX_PROGRESS, progress));
 
     }
@@ -144,10 +139,8 @@ public class BossBarService {
         private final double initialDistance;
 
         private BarHolder(@NotNull BossBar bar, double initialDistance) {
-
             this.bar = bar;
             this.initialDistance = initialDistance;
-
         }
     }
 }

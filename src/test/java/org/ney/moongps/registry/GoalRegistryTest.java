@@ -44,10 +44,8 @@ class GoalRegistryTest {
     @Test
     @DisplayName("Без учёта регистра названия совпадают")
     void caseInsensitive() {
-
         goalRegistry.registerGoal(goal("Shop"));
         assertNotNull(goalRegistry.getGoal("sHoP"));
-
     }
 
     @Test
@@ -55,7 +53,6 @@ class GoalRegistryTest {
     void caseSensitive() {
 
         Mockito.when(configManager.isCaseSensitive()).thenReturn(true);
-
         goalRegistry.registerGoal(goal("Shop"));
 
         assertNull(goalRegistry.getGoal("shop"));
@@ -66,10 +63,8 @@ class GoalRegistryTest {
     @Test
     @DisplayName("Пустое название не даёт метки")
     void blankName() {
-
         assertNull(goalRegistry.getGoal(null));
         assertNull(goalRegistry.getGoal("  "));
-
     }
 
     @Test
@@ -77,7 +72,6 @@ class GoalRegistryTest {
     void removeReturnsGoal() {
 
         goalRegistry.registerGoal(goal("shop"));
-
         GPSGoal removed = goalRegistry.removeGoal("shop");
 
         assertNotNull(removed);

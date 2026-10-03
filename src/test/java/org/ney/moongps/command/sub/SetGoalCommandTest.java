@@ -56,10 +56,8 @@ class SetGoalCommandTest {
     @Test
     @DisplayName("Без названия выводится справка")
     void usageWithoutName() {
-
         setGoalCommand.execute(CommandContext.of(player), new String[0]);
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.any(Messages.class), Mockito.any(Placeholders.class));
-
     }
 
     @Test
@@ -67,9 +65,7 @@ class SetGoalCommandTest {
     void invalidName() {
 
         Messages invalidName = new Messages(List.of("invalid"), true);
-
         Mockito.when(configManager.getSetInvalidNameMessage()).thenReturn(invalidName);
-
         setGoalCommand.execute(CommandContext.of(player), new String[]{"my mark"});
 
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.eq(invalidName), Mockito.any(Placeholders.class));
@@ -82,11 +78,8 @@ class SetGoalCommandTest {
     void createsGoal() {
 
         Messages success = new Messages(List.of("created"), true);
-
         Mockito.when(configManager.getSetSuccessMessage()).thenReturn(success);
-
         setGoalCommand.execute(CommandContext.of(player), new String[]{"shop"});
-
         org.mockito.ArgumentCaptor<GPSGoal> captor = org.mockito.ArgumentCaptor.forClass(GPSGoal.class);
 
         Mockito.verify(goalRegistry).registerGoal(captor.capture());
@@ -136,9 +129,7 @@ class SetGoalCommandTest {
     void goalPermission() {
 
         setGoalCommand.execute(CommandContext.of(player), new String[]{"shop", "moongps.mark.shop"});
-
         org.mockito.ArgumentCaptor<GPSGoal> captor = org.mockito.ArgumentCaptor.forClass(GPSGoal.class);
-
         Mockito.verify(goalRegistry).registerGoal(captor.capture());
 
         assertEquals("moongps.mark.shop", captor.getValue().permission());

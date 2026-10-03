@@ -22,11 +22,9 @@ public class ReloadCommand implements GpsSubCommand {
     public ReloadCommand(@NotNull MoonGPS plugin,
                          @NotNull ConfigManager configManager,
                          @NotNull MessageService messageService) {
-
         this.plugin = plugin;
         this.configManager = configManager;
         this.messageService = messageService;
-
     }
 
     @Override

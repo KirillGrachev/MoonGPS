@@ -13,7 +13,6 @@ public class Placeholders {
     private final Map<String, String> values = new LinkedHashMap<>();
 
     private Placeholders() {
-
     }
 
     /**
@@ -33,10 +32,8 @@ public class Placeholders {
      * @return этот же экземпляр (для цепочки вызовов)
      */
     public @NotNull Placeholders add(@NotNull String key, @NotNull Object value) {
-
         values.put(key, String.valueOf(value));
         return this;
-
     }
 
     /**

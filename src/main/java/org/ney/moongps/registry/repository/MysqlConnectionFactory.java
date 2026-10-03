@@ -22,10 +22,8 @@ public class MysqlConnectionFactory implements ConnectionFactory {
     private final LibraryLoader libraryLoader;
 
     public MysqlConnectionFactory(@NotNull SqlSettings settings, @NotNull LibraryLoader libraryLoader) {
-
         this.settings = settings;
         this.libraryLoader = libraryLoader;
-
     }
 
     @Override
@@ -35,6 +33,7 @@ public class MysqlConnectionFactory implements ConnectionFactory {
                 java.util.List.of(LibraryLoader.MYSQL_DRIVER, LibraryLoader.MYSQL_PROTOBUF),
                 DRIVER_CLASS
         );
+
         return driver.connect(buildUrl(), credentials());
 
     }
@@ -47,9 +46,7 @@ public class MysqlConnectionFactory implements ConnectionFactory {
     private @NotNull String buildUrl() {
 
         StringJoiner params = new StringJoiner("&");
-
         settings.properties().forEach((key, value) -> params.add(key + "=" + value));
-
         String query = params.length() == 0 ? "" : "?" + params;
 
         return "jdbc:mysql://" + settings.host() + ":" + settings.port() + "/" + settings.database() + query;

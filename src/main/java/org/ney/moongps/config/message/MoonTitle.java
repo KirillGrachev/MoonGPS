@@ -51,6 +51,7 @@ public record MoonTitle(@Nullable String title,
                 toDuration(stay),
                 toDuration(fadeOut)
         );
+
         return Title.title(
                 Component.text(title),
                 Component.text(subtitle),

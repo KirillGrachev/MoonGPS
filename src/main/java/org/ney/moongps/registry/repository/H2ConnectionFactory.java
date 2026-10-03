@@ -23,10 +23,8 @@ public class H2ConnectionFactory implements ConnectionFactory {
     private final LibraryLoader libraryLoader;
 
     public H2ConnectionFactory(@NotNull File databaseFile, @NotNull LibraryLoader libraryLoader) {
-
         this.databaseFile = databaseFile;
         this.libraryLoader = libraryLoader;
-
     }
 
     @Override
@@ -41,7 +39,6 @@ public class H2ConnectionFactory implements ConnectionFactory {
         Driver driver = libraryLoader.loadDriver(List.of(LibraryLoader.H2_DRIVER), DRIVER_CLASS);
 
         Properties properties = new Properties();
-
         properties.setProperty("user", "sa");
         properties.setProperty("password", "");
 

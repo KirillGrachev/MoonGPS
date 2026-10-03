@@ -27,10 +27,8 @@ public class GoalRepositoryFactory {
     private final ConfigManager configManager;
 
     public GoalRepositoryFactory(@NotNull MoonGPS plugin, @NotNull ConfigManager configManager) {
-
         this.plugin = plugin;
         this.configManager = configManager;
-
     }
 
     /**
@@ -50,17 +48,14 @@ public class GoalRepositoryFactory {
         try {
 
             SqlGoalRepository sqlRepository = createSqlRepository(settings);
-
             importFromYamlIfEmpty(sqlRepository, yamlRepository);
 
             return sqlRepository;
 
         } catch (SQLException exception) {
-
             plugin.getLogger().severe("SQL storage is unavailable: " + exception.getMessage()
                     + ". Falling back to YAML (goals.yml).");
             return yamlRepository;
-
         }
 
     }
@@ -84,7 +79,6 @@ public class GoalRepositoryFactory {
         );
 
         sqlRepository.connect();
-
         return sqlRepository;
 
     }
@@ -99,11 +93,9 @@ public class GoalRepositoryFactory {
                                        @NotNull YamlGoalRepository yamlRepository) {
 
         List<GPSGoal> stored = sqlRepository.loadAll();
-
         if (!stored.isEmpty()) return;
 
         List<GPSGoal> yamlGoals = yamlRepository.loadAll();
-
         if (yamlGoals.isEmpty()) return;
 
         sqlRepository.saveAll(yamlGoals);

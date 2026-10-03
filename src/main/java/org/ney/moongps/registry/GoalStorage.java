@@ -15,10 +15,8 @@ public class GoalStorage {
     private final GoalRepository goalRepository;
 
     public GoalStorage(@NotNull GoalRegistry goalRegistry, @NotNull GoalRepository goalRepository) {
-
         this.goalRegistry = goalRegistry;
         this.goalRepository = goalRepository;
-
     }
 
     /**
@@ -35,10 +33,8 @@ public class GoalStorage {
      * Перед загрузкой реестр очищается.
      */
     public void loadGoals() {
-
         goalRegistry.clearGoals();
         goalRepository.loadAll().forEach(goalRegistry::registerGoal);
-
     }
 
     /**

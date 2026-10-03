@@ -72,11 +72,9 @@ class MoonGPSPluginTest {
     void toggleNavigation() {
 
         PlayerMock player = server.addPlayer();
-
         player.performCommand("gps shop");
 
         assertNotNull(plugin.getNavigationService().getActiveGoal(player));
-
         player.performCommand("gps shop");
 
         assertNull(plugin.getNavigationService().getActiveGoal(player));
@@ -88,9 +86,7 @@ class MoonGPSPluginTest {
     void quitStopsNavigation() {
 
         PlayerMock player = server.addPlayer();
-
         player.performCommand("gps shop");
-
         player.disconnect();
 
         assertEquals(0, plugin.getNavigationService().getActiveSessionsCount());
@@ -102,7 +98,6 @@ class MoonGPSPluginTest {
     void reloadCommand() {
 
         PlayerMock player = server.addPlayer();
-
         player.performCommand("gps reload");
 
         assertEquals(2, plugin.getGoalRegistry().size());
@@ -120,14 +115,12 @@ class MoonGPSPluginTest {
         }
 
         config = config.replace("auto_start: \"\"", "auto_start: \"shop\"");
-
         java.nio.file.Files.write(
                 plugin.getDataFolder().toPath().resolve("config.yml"),
                 config.getBytes(java.nio.charset.StandardCharsets.UTF_8)
         );
 
         plugin.reloadPlugin();
-
         PlayerMock joined = server.addPlayer();
 
         assertEquals("shop", plugin.getNavigationService().getActiveGoal(joined).name());
@@ -137,9 +130,7 @@ class MoonGPSPluginTest {
     @Test
     @DisplayName("Выключение плагина проходит чисто")
     void pluginDisables() {
-
         plugin.onDisable();
         assertEquals(0, plugin.getNavigationService().getActiveSessionsCount());
-
     }
 }

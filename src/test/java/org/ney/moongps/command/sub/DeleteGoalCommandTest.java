@@ -50,10 +50,8 @@ class DeleteGoalCommandTest {
     @Test
     @DisplayName("Без названия выводится справка")
     void usageWithoutName() {
-
         deleteGoalCommand.execute(CommandContext.of(sender), new String[0]);
         Mockito.verify(messageService).send(Mockito.eq(sender), Mockito.any(Messages.class), Mockito.any(Placeholders.class));
-
     }
 
     @Test
@@ -61,9 +59,7 @@ class DeleteGoalCommandTest {
     void goalNotFound() {
 
         Messages notFound = new Messages(List.of("not found"), true);
-
         Mockito.when(configManager.getMarkNotFoundMessage()).thenReturn(notFound);
-
         deleteGoalCommand.execute(CommandContext.of(sender), new String[]{"shop"});
 
         Mockito.verify(messageService).send(Mockito.eq(sender), Mockito.eq(notFound), Mockito.any(Placeholders.class));
@@ -79,7 +75,6 @@ class DeleteGoalCommandTest {
         Mockito.when(goalRegistry.removeGoal("shop")).thenReturn(GOAL);
 
         Messages success = new Messages(List.of("deleted"), true);
-
         Mockito.when(configManager.getDeleteSuccessMessage()).thenReturn(success);
 
         deleteGoalCommand.execute(CommandContext.of(sender), new String[]{"shop"});

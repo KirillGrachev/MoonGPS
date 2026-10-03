@@ -37,7 +37,6 @@ class MessageServiceTest {
     void prefixSubstitutedWhereVariableUsed() {
 
         Messages messages = new Messages(List.of("{prefix}Mark {gps} not found!"), true);
-
         messageService.send(sender, messages, Placeholders.create().add("gps", "shop"));
 
         Mockito.verify(sender).sendMessage("[GPS] Mark shop not found!");
@@ -49,7 +48,6 @@ class MessageServiceTest {
     void messageWithoutPrefixVariableKept() {
 
         Messages messages = new Messages(List.of("Just a line"), true);
-
         messageService.send(sender, messages, Placeholders.create());
 
         Mockito.verify(sender).sendMessage("Just a line");
@@ -86,9 +84,7 @@ class MessageServiceTest {
     @Test
     @DisplayName("Выключенное сообщение не отправляется")
     void disabledMessageNotSent() {
-
         messageService.send(sender, Messages.disabled(), Placeholders.create());
         Mockito.verify(sender, Mockito.never()).sendMessage(Mockito.anyString());
-
     }
 }

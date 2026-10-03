@@ -93,7 +93,6 @@ public class DirectionService {
         }
 
         double crossProductY = lookDirection.getCrossProduct(goalDirection).getY();
-
         return crossProductY > 0 ? Direction.Relative.LEFT : Direction.Relative.RIGHT;
 
     }
@@ -176,6 +175,7 @@ public class DirectionService {
         if (!format.contains("{arrow}") && !format.contains("{name}")) {
             return name;
         }
+
         return format
                 .replace("{arrow}", arrow)
                 .replace("{name}", name);
@@ -183,13 +183,11 @@ public class DirectionService {
     }
 
     private @NotNull String arrowOf(@NotNull Direction.Relative relative) {
-
         return switch (relative) {
             case AHEAD -> "↑";
             case LEFT -> "←";
             case RIGHT -> "→";
             case BEHIND -> "↓";
         };
-
     }
 }

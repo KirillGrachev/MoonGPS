@@ -38,7 +38,6 @@ class ListGoalsCommandTest {
 
         Mockito.when(goalVisibilityService.filterVisible(Mockito.any(), Mockito.any()))
                 .thenAnswer(invocation -> List.copyOf(invocation.getArgument(1, java.util.Collection.class)));
-
         Mockito.when(configManager.getListEmptyMessage()).thenReturn(new Messages(List.of("empty"), true));
 
         listGoalsCommand = new ListGoalsCommand(configManager, messageService, List::of, goalVisibilityService);
@@ -48,10 +47,8 @@ class ListGoalsCommandTest {
     @Test
     @DisplayName("Пустой реестр даёт сообщение о пустом списке")
     void emptyRegistry() {
-
         listGoalsCommand.execute(CommandContext.of(player), new String[0]);
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.any(Messages.class), Mockito.any(Placeholders.class));
-
     }
 
     @Test
@@ -73,13 +70,10 @@ class ListGoalsCommandTest {
         Mockito.when(configManager.getListOtherWorldEntryFormat()).thenReturn(new Messages(List.of("§f{gps} {world}"), true));
 
         Mockito.when(player.getLocation()).thenReturn(new Location(lobby, 0.0D, 70.0D, 0.0D));
-
         org.mockito.ArgumentCaptor<String> captor = org.mockito.ArgumentCaptor.forClass(String.class);
-
         listGoalsCommand.execute(CommandContext.of(player), new String[0]);
 
         Mockito.verify(player, Mockito.times(4)).sendMessage(captor.capture());
-
         List<String> lines = captor.getAllValues();
 
         assertEquals("§bMarks 1/1", lines.get(0));
@@ -103,13 +97,10 @@ class ListGoalsCommandTest {
         Mockito.when(configManager.getListEntryFormat()).thenReturn(new Messages(List.of("{gps}"), true));
 
         World lobby = BukkitSupport.world("world");
-
         Mockito.when(player.getLocation()).thenReturn(new Location(lobby, 0.0D, 0.0D, 0.0D));
-
         org.mockito.ArgumentCaptor<String> captor = org.mockito.ArgumentCaptor.forClass(String.class);
 
         listGoalsCommand.execute(CommandContext.of(player), new String[]{"99"});
-
         Mockito.verify(player, Mockito.times(2)).sendMessage(captor.capture());
 
         assertEquals("page 1", captor.getAllValues().get(0));

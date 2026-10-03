@@ -32,7 +32,6 @@ class GoalVisibilityServiceTest {
 
         configManager = Mockito.mock(ConfigManager.class);
         permissionService = Mockito.mock(PermissionService.class);
-
         goalVisibilityService = new GoalVisibilityService(configManager, permissionService);
 
         World world = BukkitSupport.world("world");
@@ -53,28 +52,22 @@ class GoalVisibilityServiceTest {
     @Test
     @DisplayName("Метка чужого мира без права скрыта")
     void otherWorldHidden() {
-
         Mockito.when(permissionService.hasPermission(player, "moongps.mark.other_world")).thenReturn(false);
         assertFalse(goalVisibilityService.isVisible(player, OTHER_GOAL));
-
     }
 
     @Test
     @DisplayName("Метка чужого мира с правом видна")
     void otherWorldVisibleWithPermission() {
-
         Mockito.when(permissionService.hasPermission(player, "moongps.mark.other_world")).thenReturn(true);
         assertTrue(goalVisibilityService.isVisible(player, OTHER_GOAL));
-
     }
 
     @Test
     @DisplayName("Выключенный тумблер показывает все метки")
     void restrictionDisabled() {
-
         Mockito.when(configManager.isOtherWorldRestricted()).thenReturn(false);
         assertTrue(goalVisibilityService.isVisible(player, OTHER_GOAL));
-
     }
 
     @Test
@@ -93,7 +86,6 @@ class GoalVisibilityServiceTest {
     void filterVisible() {
 
         Mockito.when(permissionService.hasPermission(player, "moongps.mark.other_world")).thenReturn(false);
-
         List<GPSGoal> visible = goalVisibilityService.filterVisible(player, List.of(WORLD_GOAL, OTHER_GOAL));
 
         assertEquals(List.of(WORLD_GOAL), visible);

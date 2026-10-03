@@ -42,10 +42,8 @@ class ToggleGoalCommandTest {
     @Test
     @DisplayName("Без аргумента и активной метки выводится справка")
     void usageWithoutGoal() {
-
         toggleGoalCommand.execute(CommandContext.of(player), new String[0]);
         Mockito.verify(messageService).send(Mockito.eq(player), Mockito.any(Messages.class), Mockito.any(Placeholders.class));
-
     }
 
     @Test
@@ -53,9 +51,7 @@ class ToggleGoalCommandTest {
     void stopsActiveGoal() {
 
         GPSGoal goal = new GPSGoal("shop", 1.0D, 2.0D, 3.0D, "world", null);
-
         Mockito.when(navigationService.getActiveGoal(player)).thenReturn(goal);
-
         toggleGoalCommand.execute(CommandContext.of(player), new String[0]);
 
         Mockito.verify(navigationService).stopNavigation(player, true);
@@ -65,10 +61,8 @@ class ToggleGoalCommandTest {
     @Test
     @DisplayName("С аргументом включает навигатор до метки")
     void togglesGoal() {
-
         toggleGoalCommand.execute(CommandContext.of(player), new String[]{"shop"});
         Mockito.verify(navigationService).toggleGoal(player, "shop", true);
-
     }
 
     @Test

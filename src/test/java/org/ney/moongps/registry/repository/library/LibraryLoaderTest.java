@@ -50,9 +50,7 @@ class LibraryLoaderTest {
         LibraryLoader loader = new LibraryLoader(libsFolder.toFile(), true);
 
         loader.loadDriver(List.of(definition), "org.h2.Driver");
-
         String expected = LibraryLoader.sha256(sourceJar().toFile());
-
         assertEquals(expected, LibraryLoader.sha256(libsFolder.resolve("h2.jar").toFile()));
 
     }
@@ -70,10 +68,8 @@ class LibraryLoaderTest {
     }
 
     private LibraryDefinition definition(String fileName) throws Exception {
-
         Path source = sourceJar();
         return new LibraryDefinition(fileName, source.toUri().toString(), LibraryLoader.sha256(source.toFile()));
-
     }
 
     private Path sourceJar() throws URISyntaxException {

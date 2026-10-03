@@ -24,12 +24,10 @@ public class GoalNotifier {
                         @NotNull MessageService messageService,
                         @NotNull DirectionService directionService,
                         @NotNull BossBarService bossBarService) {
-
         this.configManager = configManager;
         this.messageService = messageService;
         this.directionService = directionService;
         this.bossBarService = bossBarService;
-
     }
 
     /**
@@ -122,17 +120,14 @@ public class GoalNotifier {
     private @NotNull Placeholders navigationPlaceholders(@NotNull GPSGoal goal,
                                                          @NotNull Direction direction,
                                                          double distance) {
-
         return goalPlaceholders(goal)
                 .add("direction", directionService.format(direction))
                 .add("distance", String.valueOf((int) distance))
                 .add("soliddist", String.valueOf((int) distance))
                 .add("exact", String.format("%.1f", distance));
-
     }
 
     private @NotNull Placeholders goalPlaceholders(@NotNull GPSGoal goal) {
-
         return Placeholders.create()
                 .add("gps", goal.name())
                 .add("mark", goal.name())
@@ -140,6 +135,5 @@ public class GoalNotifier {
                 .add("x", String.valueOf((int) goal.x()))
                 .add("y", String.valueOf((int) goal.y()))
                 .add("z", String.valueOf((int) goal.z()));
-
     }
 }

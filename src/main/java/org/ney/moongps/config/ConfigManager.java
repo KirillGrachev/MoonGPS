@@ -167,10 +167,8 @@ public class ConfigManager implements MoonGPSConfig {
     }
 
     private void loadConfig() {
-
         File configFile = new File(plugin.getDataFolder(), "config.yml");
         config = YamlConfiguration.loadConfiguration(configFile);
-
     }
 
     private void cacheConfigValues() {
@@ -242,6 +240,7 @@ public class ConfigManager implements MoonGPSConfig {
                 config.getString(PATH_SQL_PASSWORD, ""),
                 stringMap(config.getConfigurationSection(PATH_SQL_PROPERTIES))
         );
+
         return new StorageSettings(StorageType.of(config.getString(PATH_STORAGE_TYPE), StorageType.YAML), sqlSettings);
 
     }
@@ -251,7 +250,6 @@ public class ConfigManager implements MoonGPSConfig {
         if (section == null) return Map.of();
 
         Map<String, String> result = new HashMap<>();
-
         section.getKeys(false).forEach(key ->
                 result.put(key, section.getString(key, ""))
         );
@@ -277,7 +275,6 @@ public class ConfigManager implements MoonGPSConfig {
     }
 
     private DisplaySettings cacheDisplaySettings() {
-
         return new DisplaySettings(
                 config.getBoolean(PATH_TITLE_ENABLED, true),
                 config.getBoolean(PATH_ACTION_BAR_ENABLED, false),
@@ -291,19 +288,17 @@ public class ConfigManager implements MoonGPSConfig {
                 barStyle(),
                 BossBarProgress.of(config.getString(PATH_BOSS_BAR_PROGRESS), BossBarProgress.DISTANCE)
         );
-
     }
 
     private @NotNull BarColor barColor() {
 
         String configValue = config.getString(PATH_BOSS_BAR_COLOR, "BLUE");
+
         try {
             return BarColor.valueOf(configValue.trim().toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException exception) {
-
             plugin.getLogger().warning("Invalid boss_bar.color: '" + configValue + "'. Using default: BLUE.");
             return BarColor.BLUE;
-
         }
 
     }
@@ -311,19 +306,17 @@ public class ConfigManager implements MoonGPSConfig {
     private @NotNull BarStyle barStyle() {
 
         String configValue = config.getString(PATH_BOSS_BAR_STYLE, "SOLID");
+
         try {
             return BarStyle.valueOf(configValue.trim().toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException exception) {
-
             plugin.getLogger().warning("Invalid boss_bar.style: '" + configValue + "'. Using default: SOLID.");
             return BarStyle.SOLID;
-
         }
 
     }
 
     private ReachSettings cacheReachSettings() {
-
         return new ReachSettings(
                 title("messages.goal_reached.title"),
                 messages("messages.goal_reached.text"),
@@ -334,19 +327,17 @@ public class ConfigManager implements MoonGPSConfig {
                 Math.max(1L, config.getLong(PATH_REACH_BAR_SHOW_TIME, 40L)),
                 soundEffect()
         );
-
     }
 
     private @NotNull BarColor reachBarColor() {
 
         String configValue = config.getString(PATH_REACH_BAR_COLOR, "GREEN");
+
         try {
             return BarColor.valueOf(configValue.trim().toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException exception) {
-
             plugin.getLogger().warning("Invalid goal_reached boss_bar.color: '" + configValue + "'. Using default: GREEN.");
             return BarColor.GREEN;
-
         }
 
     }
@@ -354,13 +345,12 @@ public class ConfigManager implements MoonGPSConfig {
     private @NotNull BarStyle reachBarStyle() {
 
         String configValue = config.getString(PATH_REACH_BAR_STYLE, "SOLID");
+
         try {
             return BarStyle.valueOf(configValue.trim().toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException exception) {
-
             plugin.getLogger().warning("Invalid goal_reached boss_bar.style: '" + configValue + "'. Using default: SOLID.");
             return BarStyle.SOLID;
-
         }
 
     }
@@ -382,13 +372,12 @@ public class ConfigManager implements MoonGPSConfig {
     private @Nullable Sound parseSound(@Nullable String soundName) {
 
         if (soundName == null || soundName.isBlank()) return null;
+
         try {
             return Sound.valueOf(soundName.trim().toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException exception) {
-
             plugin.getLogger().warning("Unknown sound in config.yml: '" + soundName + "'. The sound has been disabled.");
             return null;
-
         }
 
     }
@@ -447,7 +436,6 @@ public class ConfigManager implements MoonGPSConfig {
         if (section == null) return Map.of();
 
         Map<String, String> result = new HashMap<>();
-
         section.getKeys(false).forEach(key ->
                 result.put(key.toUpperCase(Locale.ROOT), HexColorUtil.color(section.getString(key, "")))
         );
@@ -693,6 +681,7 @@ public class ConfigManager implements MoonGPSConfig {
     public void reload() {
 
         plugin.reloadConfig();
+
         loadConfig();
         cacheConfigValues();
 

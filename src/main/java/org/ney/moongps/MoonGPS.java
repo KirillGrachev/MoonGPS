@@ -106,10 +106,8 @@ public class MoonGPS extends JavaPlugin {
     public void onDisable() {
 
         if (goalStorage != null) {
-
             goalStorage.saveGoals();
             goalStorage.close();
-
         }
 
         if (navigationService != null) {

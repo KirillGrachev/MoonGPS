@@ -93,11 +93,9 @@ class GoalRepositoryFactoryTest {
     }
 
     private Path sourceJar() throws Exception {
-
         return java.nio.file.Paths.get(
                 org.h2.Driver.class.getProtectionDomain().getCodeSource().getLocation().toURI()
         );
-
     }
 
     private StorageSettings settings(StorageType type) {
@@ -105,6 +103,7 @@ class GoalRepositoryFactoryTest {
         SqlSettings sql = new SqlSettings(
                 "127.0.0.1", 1, "moongps", "moongps_marks", "root", "", Map.of()
         );
+
         return new StorageSettings(type, sql);
 
     }

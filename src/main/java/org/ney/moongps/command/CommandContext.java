@@ -14,12 +14,10 @@ import org.jetbrains.annotations.Nullable;
 public record CommandContext(@NotNull CommandSender sender, @Nullable Player player) {
 
     public static @NotNull CommandContext of(@NotNull CommandSender sender) {
-
         return new CommandContext(
                 sender,
                 sender instanceof Player senderPlayer ? senderPlayer : null
         );
-
     }
 
     public boolean isPlayer() {
@@ -37,6 +35,7 @@ public record CommandContext(@NotNull CommandSender sender, @Nullable Player pla
         if (player == null) {
             throw new IllegalStateException("Player-only subcommand from console");
         }
+
         return player;
 
     }

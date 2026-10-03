@@ -30,12 +30,10 @@ public class ListGoalsCommand implements GpsSubCommand {
                             @NotNull MessageService messageService,
                             @NotNull Supplier<List<GPSGoal>> goalsSupplier,
                             @NotNull GoalVisibilityService goalVisibilityService) {
-
         this.configManager = configManager;
         this.messageService = messageService;
         this.goalsSupplier = goalsSupplier;
         this.goalVisibilityService = goalVisibilityService;
-
     }
 
     @Override
@@ -59,17 +57,14 @@ public class ListGoalsCommand implements GpsSubCommand {
         List<GPSGoal> goalList = sortedGoals(context);
 
         if (goalList.isEmpty()) {
-
             messageService.send(context.sender(), configManager.getListEmptyMessage(), Placeholders.create());
             return true;
-
         }
 
         int maxPage = (int) Math.ceil((double) goalList.size() / entriesPerPage());
         int page = parsePage(args, maxPage);
 
         List<String> lines = buildPage(context, goalList, page, maxPage);
-
         lines.forEach(context.sender()::sendMessage);
 
         return true;
@@ -109,7 +104,6 @@ public class ListGoalsCommand implements GpsSubCommand {
         }
 
         addAll(lines, configManager.getListFooter().values(), page, maxPage, goalList.size());
-
         return lines;
 
     }
@@ -142,14 +136,12 @@ public class ListGoalsCommand implements GpsSubCommand {
 
     private void addAll(@NotNull List<String> lines, @NotNull List<String> values,
                         int page, int maxPage, int total) {
-
         values.forEach(line -> lines.add(Placeholders.create()
                 .add("page", page)
                 .add("max_page", maxPage)
                 .add("total", total)
                 .apply(line))
         );
-
     }
 
     private int entriesPerPage() {
@@ -159,11 +151,10 @@ public class ListGoalsCommand implements GpsSubCommand {
     private int parsePage(String @NotNull [] args, int maxPage) {
 
         if (args.length == 0) return 1;
-        try {
 
+        try {
             int page = Integer.parseInt(args[0]);
             return Math.max(1, Math.min(page, maxPage));
-
         } catch (NumberFormatException exception) {
             return 1;
         }
@@ -177,7 +168,6 @@ public class ListGoalsCommand implements GpsSubCommand {
         );
 
         goalList.sort((first, second) -> first.name().compareToIgnoreCase(second.name()));
-
         return goalList;
 
     }

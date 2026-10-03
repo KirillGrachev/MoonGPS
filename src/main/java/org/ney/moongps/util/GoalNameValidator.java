@@ -12,9 +12,7 @@ public class GoalNameValidator {
 
     private static final Pattern NAME_PATTERN = Pattern.compile("[A-Za-z0-9_-]{1,32}");
 
-    private GoalNameValidator() {
-
-    }
+    private GoalNameValidator() {}
 
     /**
      * Проверяет корректность названия метки.
@@ -23,9 +21,7 @@ public class GoalNameValidator {
      * @return true если название допустимо
      */
     public static boolean isValid(@Nullable String name) {
-
         if (name == null || name.isBlank()) return false;
         return NAME_PATTERN.matcher(name).matches();
-
     }
 }

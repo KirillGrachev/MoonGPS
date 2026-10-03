@@ -15,4 +15,5 @@ public interface ConnectionFactory {
      * @throws SQLException если база недоступна
      */
     Connection open() throws SQLException;
+
 }

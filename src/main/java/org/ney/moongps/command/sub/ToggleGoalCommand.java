@@ -23,11 +23,9 @@ public class ToggleGoalCommand implements GpsSubCommand {
     public ToggleGoalCommand(@NotNull ConfigManager configManager,
                              @NotNull NavigationService navigationService,
                              @NotNull MessageService messageService) {
-
         this.configManager = configManager;
         this.navigationService = navigationService;
         this.messageService = messageService;
-
     }
 
     /**
@@ -62,20 +60,16 @@ public class ToggleGoalCommand implements GpsSubCommand {
             GPSGoal activeGoal = navigationService.getActiveGoal(context.requirePlayer());
 
             if (activeGoal == null) {
-
                 messageService.send(context.sender(), configManager.getUsageMessage(), Placeholders.create());
                 return true;
-
             }
 
             navigationService.stopNavigation(context.requirePlayer(), true);
-
             return true;
 
         }
 
         navigationService.toggleGoal(context.requirePlayer(), args[0], true);
-
         return true;
 
     }

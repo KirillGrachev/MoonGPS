@@ -52,10 +52,8 @@ public class LibraryLoader {
     private final Map<String, URLClassLoader> classLoaders = new ConcurrentHashMap<>();
 
     public LibraryLoader(@NotNull File libsFolder, boolean downloadEnabled) {
-
         this.libsFolder = libsFolder;
         this.downloadEnabled = downloadEnabled;
-
     }
 
     /**
@@ -70,11 +68,10 @@ public class LibraryLoader {
                                       @NotNull String driverClass) throws SQLException {
 
         URLClassLoader classLoader = classLoader(libraries);
-        try {
 
+        try {
             Class<?> driverType = Class.forName(driverClass, true, classLoader);
             return (Driver) driverType.getDeclaredConstructor().newInstance();
-
         } catch (ReflectiveOperationException exception) {
             throw new SQLException("Failed to load driver " + driverClass, exception);
         }
@@ -88,23 +85,19 @@ public class LibraryLoader {
                 .reduce("", (first, second) -> first + "," + second);
 
         URLClassLoader cached = classLoaders.get(key);
-
         if (cached != null) return cached;
 
         URL[] urls = new URL[libraries.size()];
 
         try {
-
             for (int i = 0; i < libraries.size(); i++) {
                 urls[i] = ensure(libraries.get(i)).toURI().toURL();
             }
-
         } catch (java.net.MalformedURLException exception) {
             throw new SQLException("Invalid library path", exception);
         }
 
         URLClassLoader classLoader = new URLClassLoader(urls, getClass().getClassLoader());
-
         classLoaders.put(key, classLoader);
 
         return classLoader;
@@ -128,10 +121,8 @@ public class LibraryLoader {
         }
 
         if (!downloadEnabled) {
-
             throw new SQLException("Library " + definition.fileName()
                     + " is missing in " + libsFolder + " and downloading is disabled");
-
         }
 
         download(definition, target);
@@ -157,29 +148,23 @@ public class LibraryLoader {
             URLConnection connection = new URL(definition.url()).openConnection();
 
             if (connection instanceof HttpURLConnection http) {
-
                 http.setConnectTimeout(CONNECT_TIMEOUT);
                 http.setReadTimeout(READ_TIMEOUT);
-
             }
 
             try (InputStream stream = connection.getInputStream()) {
                 Files.copy(stream, part.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } finally {
-
                 if (connection instanceof HttpURLConnection http) {
                     http.disconnect();
                 }
-
             }
 
             Files.move(part.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         } catch (java.io.IOException exception) {
-
             throw new SQLException("Failed to download " + definition.fileName()
                     + " from " + definition.url() + ": " + exception.getMessage(), exception);
-
         }
 
     }

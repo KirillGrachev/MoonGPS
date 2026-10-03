@@ -17,10 +17,8 @@ class CommandDispatcherTest {
 
     @BeforeEach
     void setUp() {
-
         plugin = Mockito.mock(MoonGPS.class);
         commandDispatcher = new CommandDispatcher(plugin);
-
     }
 
     @Test
@@ -45,7 +43,6 @@ class CommandDispatcherTest {
 
         Mockito.when(plugin.getCommand("gps")).thenReturn(null);
         Mockito.when(plugin.getLogger()).thenReturn(Logger.getLogger("MoonGPSTest"));
-
         commandDispatcher.registerCommand("gps", Mockito.mock(TabExecutor.class));
 
         Mockito.verify(plugin, Mockito.never()).getServer();

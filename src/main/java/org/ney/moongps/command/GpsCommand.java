@@ -42,7 +42,6 @@ public class GpsCommand implements TabExecutor {
                       @NotNull List<GpsSubCommand> subCommands,
                       @NotNull Supplier<List<GPSGoal>> goalNamesSupplier,
                       @NotNull GoalVisibilityService goalVisibilityService) {
-
         this.configManager = configManager;
         this.messageService = messageService;
         this.permissionService = permissionService;
@@ -50,7 +49,6 @@ public class GpsCommand implements TabExecutor {
         this.subCommands = List.copyOf(subCommands);
         this.goalNamesSupplier = goalNamesSupplier;
         this.goalVisibilityService = goalVisibilityService;
-
     }
 
     @Override
@@ -60,7 +58,6 @@ public class GpsCommand implements TabExecutor {
                              String @NotNull [] args) {
 
         if (!command.getName().equalsIgnoreCase(COMMAND_NAME)) return false;
-
         CommandContext context = CommandContext.of(sender);
 
         if (args.length == 0) {
@@ -85,7 +82,6 @@ public class GpsCommand implements TabExecutor {
                                       String @NotNull [] args) {
 
         if (!command.getName().equalsIgnoreCase(COMMAND_NAME)) return List.of();
-
         CommandContext context = CommandContext.of(sender);
 
         if (args.length == 1) {
@@ -110,17 +106,13 @@ public class GpsCommand implements TabExecutor {
                                       String @NotNull [] args) {
 
         if (subCommand.isPlayerOnly() && !context.isPlayer()) {
-
             messageService.send(context.sender(), configManager.getOnlyPlayersMessage(), Placeholders.create());
             return true;
-
         }
 
         if (!hasAccess(context, subCommand)) {
-
             messageService.send(context.sender(), configManager.getNoPermissionMessage(), Placeholders.create());
             return true;
-
         }
 
         return subCommand.execute(context, args);
@@ -132,23 +124,19 @@ public class GpsCommand implements TabExecutor {
     }
 
     private @Nullable GpsSubCommand findSubCommand(@NotNull String argument) {
-
         return subCommands.stream()
                 .filter(subCommand -> subCommand.getName().equalsIgnoreCase(argument))
                 .findFirst()
                 .orElse(null);
-
     }
 
     private @NotNull List<String> availableSubCommands(@NotNull CommandContext context) {
-
         return subCommands.stream()
                 .filter(subCommand -> !subCommand.isHidden())
                 .filter(subCommand -> hasAccess(context, subCommand))
                 .filter(subCommand -> !subCommand.isPlayerOnly() || context.isPlayer())
                 .map(GpsSubCommand::getName)
                 .toList();
-
     }
 
     private @NotNull List<String> visibleGoalNames(@NotNull CommandContext context) {
@@ -156,6 +144,7 @@ public class GpsCommand implements TabExecutor {
         if (!permissionService.hasPermission(context.sender(), configManager.getPermissionUse())) {
             return List.of();
         }
+
         return goalVisibilityService.filterVisible(context.sender(), goalNamesSupplier.get())
                 .stream()
                 .map(GPSGoal::name)
@@ -164,11 +153,9 @@ public class GpsCommand implements TabExecutor {
     }
 
     private @NotNull List<String> filter(@NotNull List<String> values, @NotNull String argument) {
-
         String prefix = argument.toLowerCase(Locale.ROOT);
         return values.stream()
                 .filter(value -> value.toLowerCase(Locale.ROOT).startsWith(prefix))
                 .toList();
-
     }
 }

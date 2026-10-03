@@ -22,10 +22,8 @@ public class GoalVisibilityService {
 
     public GoalVisibilityService(@NotNull ConfigManager configManager,
                                  @NotNull PermissionService permissionService) {
-
         this.configManager = configManager;
         this.permissionService = permissionService;
-
     }
 
     /**
@@ -54,10 +52,8 @@ public class GoalVisibilityService {
      */
     public @NotNull List<GPSGoal> filterVisible(@Nullable CommandSender viewer,
                                                  @NotNull Collection<GPSGoal> goals) {
-
         return goals.stream()
                 .filter(goal -> isVisible(viewer, goal))
                 .toList();
-
     }
 }

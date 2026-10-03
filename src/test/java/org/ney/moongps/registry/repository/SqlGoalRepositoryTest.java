@@ -80,6 +80,7 @@ class SqlGoalRepositoryTest {
                 new GPSGoal("bank", 1.0D, 1.0D, 1.0D, "world", null),
                 new GPSGoal("shop", 2.0D, 2.0D, 2.0D, "world", null)
         ));
+
         assertEquals(2, sqlGoalRepository.loadAll().size());
 
     }
@@ -100,7 +101,6 @@ class SqlGoalRepositoryTest {
     void reconnectAfterClose() {
 
         sqlGoalRepository.save(new GPSGoal("shop", 1.0D, 1.0D, 1.0D, "world", null));
-
         sqlGoalRepository.close();
 
         assertEquals(1, sqlGoalRepository.loadAll().size());
@@ -123,15 +123,12 @@ class SqlGoalRepositoryTest {
         unsafeRepository.save(new GPSGoal("shop", 1.0D, 1.0D, 1.0D, "world", null));
 
         assertEquals(1, unsafeRepository.loadAll().size());
-
         unsafeRepository.close();
 
     }
 
     private ConnectionFactory database(SqlSettings settings) {
-
         String url = "jdbc:h2:mem:moongps_" + UUID.randomUUID() + ";MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1";
         return () -> DriverManager.getConnection(url);
-
     }
 }

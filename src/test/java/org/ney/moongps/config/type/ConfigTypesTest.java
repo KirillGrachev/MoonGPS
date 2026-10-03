@@ -10,10 +10,8 @@ class ConfigTypesTest {
     @Test
     @DisplayName("Режим направления разбирается без учёта регистра")
     void directionModeOf() {
-
         assertEquals(DirectionMode.COMPASS, DirectionMode.of("compass", DirectionMode.RELATIVE));
         assertEquals(DirectionMode.RELATIVE, DirectionMode.of("Relative", DirectionMode.COMPASS));
-
     }
 
     @Test
@@ -40,18 +38,14 @@ class ConfigTypesTest {
     @Test
     @DisplayName("Прогресс boss bar разбирается без учёта регистра")
     void bossBarProgressOf() {
-
         assertEquals(BossBarProgress.FULL, BossBarProgress.of("full", BossBarProgress.DISTANCE));
         assertEquals(BossBarProgress.DISTANCE, BossBarProgress.of("Distance", BossBarProgress.FULL));
-
     }
 
     @Test
     @DisplayName("Неизвестный прогресс даёт значение по умолчанию")
     void bossBarProgressFallback() {
-
         assertEquals(BossBarProgress.DISTANCE, BossBarProgress.of("wrong", BossBarProgress.DISTANCE));
         assertEquals(BossBarProgress.DISTANCE, BossBarProgress.of(null, BossBarProgress.DISTANCE));
-
     }
 }

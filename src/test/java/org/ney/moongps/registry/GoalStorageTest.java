@@ -58,9 +58,7 @@ class GoalStorageTest {
     void goalsLoaded() {
 
         goalStorage.loadGoals();
-
         assertEquals(2, goalRegistry.size());
-
         GPSGoal bank = goalRegistry.getGoal("bank");
 
         assertNotNull(bank);
@@ -87,7 +85,6 @@ class GoalStorageTest {
     void brokenGoalsSkipped() throws IOException {
 
         copyResource("goals-broken.yml", "goals.yml");
-
         goalStorage.loadGoals();
 
         assertEquals(1, goalRegistry.size());
@@ -112,7 +109,6 @@ class GoalStorageTest {
         goalStorage.loadGoals();
 
         assertEquals(3, goalRegistry.size());
-
         GPSGoal reloaded = goalRegistry.getGoal("pvp");
 
         assertNotNull(reloaded);
@@ -148,7 +144,6 @@ class GoalStorageTest {
     void goalDeleted() {
 
         goalStorage.loadGoals();
-
         GPSGoal removed = goalRegistry.removeGoal("bank");
 
         assertNotNull(removed);
@@ -180,7 +175,6 @@ class GoalStorageTest {
     void missingMarksSection() throws IOException {
 
         Files.writeString(dataFolder.resolve("goals.yml"), "# empty file\n");
-
         goalStorage.loadGoals();
 
         assertEquals(0, goalRegistry.size());
@@ -202,7 +196,6 @@ class GoalStorageTest {
         World lobby = BukkitSupport.world("world");
 
         Mockito.when(server.getWorlds()).thenReturn(List.of(lobby));
-
         goalStorage.loadGoals();
 
         assertEquals("world", goalRegistry.getGoal("spawn").world());
@@ -214,7 +207,6 @@ class GoalStorageTest {
     void deleteWithoutSection() throws IOException {
 
         Files.writeString(dataFolder.resolve("goals.yml"), "# empty file\n");
-
         goalStorage.deleteGoal("shop");
 
         assertEquals(0, goalRegistry.size());
@@ -222,13 +214,9 @@ class GoalStorageTest {
     }
 
     private void copyResource(String resourceName, String fileName) throws IOException {
-
         try (InputStream stream = getClass().getClassLoader().getResourceAsStream(resourceName)) {
-
             assertNotNull(stream, "Ресурс не найден: " + resourceName);
             Files.copy(stream, dataFolder.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
-
         }
-
     }
 }

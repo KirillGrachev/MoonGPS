@@ -24,24 +24,16 @@ class ResourcesLanguageTest {
     @Test
     @DisplayName("В ресурсах плагина нет кириллицы")
     void resourcesAreEnglish() throws IOException {
-
         for (String resource : RESOURCES) {
-
             assertFalse(CYRILLIC.matcher(read(resource)).find(),
                     "В ресурсе " + resource + " найден русский текст");
-
         }
-
     }
 
     private String read(String resource) throws IOException {
-
         try (InputStream stream = getClass().getClassLoader().getResourceAsStream(resource)) {
-
             assertNotNull(stream, "Ресурс не найден: " + resource);
             return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
-
         }
-
     }
 }

@@ -34,14 +34,12 @@ public class NavigationTaskService {
                                  @NotNull DirectionService directionService,
                                  @NotNull GoalNotifier goalNotifier,
                                  @NotNull MessageService messageService) {
-
         this.plugin = plugin;
         this.configManager = configManager;
         this.goalRegistry = goalRegistry;
         this.directionService = directionService;
         this.goalNotifier = goalNotifier;
         this.messageService = messageService;
-
     }
 
     /**
@@ -54,7 +52,6 @@ public class NavigationTaskService {
                       @NotNull BiConsumer<Player, GPSGoal> onReach) {
 
         long interval = configManager.getNavigationInterval();
-
         BukkitTask task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(
                 plugin, () -> tick(session, onReach), 0L, interval
         );
@@ -77,20 +74,16 @@ public class NavigationTaskService {
         Player player = session.getPlayer();
 
         if (player == null || !player.isOnline()) {
-
             session.stop();
             return;
-
         }
 
         GPSGoal goal = session.getGoal();
 
         // Метка могла быть удалена или перезагружена во время навигации
         if (goalRegistry.getGoal(goal.name()) == null) {
-
             session.stop();
             return;
-
         }
 
         Location goalLocation = goal.toLocation();
@@ -133,18 +126,14 @@ public class NavigationTaskService {
         Direction direction = directionService.calculateDirection(playerLocation, goalLocation);
 
         runSync(() -> {
-
             if (session.isStopped() || !player.isOnline()) return;
             goalNotifier.notifyNavigation(player, goal, direction, distance);
-
         });
 
     }
 
     private void notifyMarkWorldNotLoaded(@NotNull Player player, @NotNull GPSGoal goal) {
-
         runSync(() -> {
-
             if (!player.isOnline()) return;
             messageService.send(player,
                     configManager.getMarkWorldNotLoadedMessage(),
@@ -152,30 +141,22 @@ public class NavigationTaskService {
                             .add("gps", goal.name())
                             .add("world", goal.world())
             );
-
         });
-
     }
 
     private boolean isSameWorld(@NotNull Location playerLocation, @NotNull Location goalLocation) {
-
         return playerLocation.getWorld() != null
                 && playerLocation.getWorld().equals(goalLocation.getWorld());
-
     }
 
     private void notifyWorldLeft(@NotNull Player player) {
-
         runSync(() -> {
-
             if (!player.isOnline()) return;
             messageService.send(player,
                     configManager.getStoppedWorldChangedMessage(),
                     Placeholders.create()
             );
-
         });
-
     }
 
     private void runSync(@NotNull Runnable runnable) {

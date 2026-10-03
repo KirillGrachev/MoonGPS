@@ -34,12 +34,10 @@ public class MessageService {
     public void send(@NotNull CommandSender sender,
                      @NotNull Messages messages,
                      @NotNull Placeholders placeholders) {
-
         if (messages.isEmpty()) return;
         messages.values().forEach(line ->
                 sender.sendMessage(withPrefix(placeholders.apply(line)))
         );
-
     }
 
     /**
@@ -54,7 +52,6 @@ public class MessageService {
                           @NotNull Placeholders placeholders) {
 
         String titleText = moonTitle.title();
-
         if (titleText == null) return;
 
         player.showTitle(moonTitle.asAdventure(
@@ -74,10 +71,8 @@ public class MessageService {
     public void sendActionBar(@NotNull Player player,
                               @NotNull Messages messages,
                               @NotNull Placeholders placeholders) {
-
         if (messages.isEmpty()) return;
         player.sendActionBar(Component.text(placeholders.apply(messages.values().get(0))));
-
     }
 
     /**

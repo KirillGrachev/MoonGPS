@@ -39,10 +39,8 @@ class ConfigManagerTest {
     void setUp() throws IOException {
 
         try (InputStream configStream = getClass().getClassLoader().getResourceAsStream("config.yml")) {
-
             assertNotNull(configStream, "config.yml не найден в ресурсах");
             Files.copy(configStream, dataFolder.resolve("config.yml"), StandardCopyOption.REPLACE_EXISTING);
-
         }
 
         MoonGPS plugin = Mockito.mock(MoonGPS.class);
